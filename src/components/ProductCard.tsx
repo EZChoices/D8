@@ -1,21 +1,28 @@
-// === File: src/components/ProductCard.tsx ===
-type ProductProps = {
-  name: string;
-  price: string;
-  image: string;
-  description: string;
-};
+import Link from "next/link";
+import type { Product } from "@/lib/products";
 
-export default function ProductCard({ name, price, image, description }: ProductProps) {
+export default function ProductCard(p: Product) {
   return (
-    <div className="border p-4 rounded shadow hover:shadow-lg transition">
-      <img src={image} alt={name} className="w-full h-48 object-contain mb-4" />
-      <h3 className="text-lg font-semibold mb-1">{name}</h3>
-      <p className="text-gray-600 text-sm mb-2">{description}</p>
-      <p className="font-bold mb-2">{price}</p>
-      <a href="/checkout" className="bg-black text-white px-4 py-2 inline-block">
-        Add to Cart
-      </a>
+    <div className="card p-4 hover:-translate-y-0.5 transition">
+      <div className="aspect-[4/3] rounded-xl bg-ink-800 border border-white/5 grid place-items-center overflow-hidden mb-4">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={p.image} alt={p.name} className="object-contain w-full h-full" />
+      </div>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h3 className="font-semibold">{p.name}</h3>
+          {p.strength && <p className="text-sm text-ink-400">{p.strength}</p>}
+        </div>
+        <div className="text-right">
+          <div className="font-semibold">${p.price}</div>
+          <div className="text-xs text-ink-400">incl. VAT</div>
+        </div>
+      </div>
+      <p className="text-sm text-ink-400 mt-2">{p.description}</p>
+      <div className="mt-4 flex gap-3">
+        <Link href={`/product/${p.slug}`} className="btn btn-primary">View</Link>
+        <Link href="/checkout" className="btn btn-ghost">Add to Cart</Link>
+      </div>
     </div>
   );
 }
