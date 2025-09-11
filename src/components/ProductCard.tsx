@@ -1,12 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Product } from "@/lib/products";
 
 export default function ProductCard(p: Product) {
   return (
     <div className="card p-4 hover:-translate-y-0.5 transition">
       <div className="aspect-[4/3] rounded-xl bg-ink-800 border border-white/5 grid place-items-center overflow-hidden mb-4">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={p.image} alt={p.name} className="object-contain w-full h-full max-h-48" />
+        <Image src={p.image} alt={p.name} width={400} height={300} className="object-contain w-full h-full max-h-48" />
       </div>
       <div className="flex items-start justify-between gap-3">
         <div>
