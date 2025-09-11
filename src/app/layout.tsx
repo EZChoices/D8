@@ -6,6 +6,14 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "D8 — Pure Delta-8",
   description: "Clean Delta-8 products. Nothing else.",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  openGraph: {
+    title: "D8 — Pure Delta-8",
+    description: "Clean Delta-8 products. Nothing else.",
+    type: "website",
+    url: "https://d8-orpin.vercel.app",
+    images: [{ url: "/placeholder_cart.png" }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
