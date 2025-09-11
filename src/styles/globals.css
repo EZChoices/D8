@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global look & helpers */
+:root { color-scheme: dark; }
+html, body { height: 100%; }
+body { @apply bg-ink-900 text-ink-100 font-body antialiased; }
+
+a { @apply text-ink-100; }
+.container { @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
+.section { @apply py-12 md:py-16; }
+
+.card { @apply bg-ink-800/70 backdrop-blur rounded-2xl border border-white/5 shadow-soft; }
+.btn { @apply inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition; }
+.btn-primary { @apply bg-brand-500 hover:bg-brand-400 text-white; }
+.btn-ghost { @apply bg-white/5 hover:bg-white/10 text-ink-100; }
+.badge { @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-white/10 text-ink-100 border border-white/10; }
