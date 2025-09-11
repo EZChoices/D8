@@ -12,8 +12,8 @@ export default function Footer() {
           <div className="font-semibold mb-2 text-ink-100">Explore</div>
           <ul className="space-y-2">
             <li><Link href="/shop" className="hover:underline">Shop</Link></li>
-            <li><a href="/#why" className="hover:underline">Why Us</a></li>
-            <li><a href="/#faq" className="hover:underline">FAQ</a></li>
+            <li><Link href="/#why" className="hover:underline">Why Us</Link></li>
+            <li><Link href="/#faq" className="hover:underline">FAQ</Link></li>
           </ul>
         </div>
         <div>

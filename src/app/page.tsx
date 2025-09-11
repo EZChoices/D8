@@ -17,7 +17,7 @@ export default function Home() {
           </p>
           <div className="mt-6 flex gap-3">
             <Link href="/shop" className="btn btn-primary">Browse Products</Link>
-            <a href="#why" className="btn btn-ghost">Why Us</a>
+            <Link href="/#why" className="btn btn-ghost">Why Us</Link>
           </div>
         </div>
       </section>

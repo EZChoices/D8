@@ -57,9 +57,9 @@ export default function Navbar() {
   const Links = () => (
     <div className="flex flex-col md:flex-row gap-6 md:items-center">
       <Link href="/shop" className="hover:opacity-80">Shop</Link>
-      <a href="/#why" className="hover:opacity-80">Why Us</a>
-      <a href="/#faq" className="hover:opacity-80">FAQ</a>
-      <a href="/#contact" className="hover:opacity-80">Contact</a>
+      <Link href="/#why" className="hover:opacity-80">Why Us</Link>
+      <Link href="/#faq" className="hover:opacity-80">FAQ</Link>
+      <Link href="/#contact" className="hover:opacity-80">Contact</Link>
       <Link href="/checkout" className="btn btn-ghost">Checkout</Link>
     </div>
   );
