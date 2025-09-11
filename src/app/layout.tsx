@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description: "Clean Delta-8 products. Nothing else.",
     type: "website",
     url: "https://d8-orpin.vercel.app",
-    images: [{ url: "/placeholder_cart.png" }],
+    images: [{ url: "/refillable-cart.png", alt: "Refillable Delta-8 vape cartridge" }],
   },
 };
 
