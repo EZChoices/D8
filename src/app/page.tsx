@@ -1,7 +1,7 @@
 import ProductCard from "@/components/ProductCard";
 import TrustBar from "@/components/TrustBar";
 import EmailSignup from "@/components/EmailSignup";
-import { featuredSlugs, products } from "@/data/products";
+import { featuredSlugs, products, categories } from "@/data/products";
 
 const featured = products.filter((p) => featuredSlugs.includes(p.slug as any));
 
@@ -17,6 +17,21 @@ export default function Home() {
           </a>
         </div>
         <TrustBar />
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Shop by Category</h2>
+        <div className="flex gap-4 overflow-x-auto pb-2">
+          {categories.map((c) => (
+            <a
+              key={c}
+              href={`/shop?cat=${encodeURIComponent(c)}`}
+              className="flex-shrink-0 rounded border px-4 py-2"
+            >
+              {c}
+            </a>
+          ))}
+        </div>
       </section>
 
       <section>
