@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { products, categories } from "@/data/products";
 
-export default function ShopPage() {
+function ShopContent() {
   const search = useSearchParams();
   const initial = search.get("cat");
   const [cat, setCat] = useState<string | null>(initial);
@@ -42,6 +42,14 @@ export default function ShopPage() {
         ))}
       </div>
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ShopContent />
+    </Suspense>
   );
 }
 
