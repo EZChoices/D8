@@ -10,10 +10,14 @@ export default function Footer() {
           </p>
         </div>
         <nav className="text-sm flex flex-wrap gap-4 justify-start md:justify-end">
-          <Link href="/shipping-returns">Shipping & Returns</Link>
+          <Link href="/lab-tested">Lab-tested</Link>
+          <Link href="/discreet-shipping">Discreet Shipping</Link>
+          <Link href="/direct-supply">Supply Chain</Link>
+          <Link href="/lab-results">Lab Results</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
-          <Link href="/lab-results">Lab Results</Link>
+          <Link href="/shipping-returns">Shipping & Returns</Link>
+          <Link href="/refunds">Refunds</Link>
         </nav>
       </div>
       <div className="text-center text-xs text-gray-500 pb-6">© {new Date().getFullYear()} D8. All rights reserved.</div>
