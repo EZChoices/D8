@@ -1,10 +1,10 @@
-import { getProduct } from "@/data/products";
+import { getProduct, formatPrice } from "@/data/products";
 
 export default function CheckoutPage({ searchParams }: { searchParams: { sku?: string; qty?: string } }) {
   const sku = searchParams?.sku;
   const qtyNum = Math.max(1, parseInt(searchParams?.qty || "1", 10) || 1);
   const product = sku ? getProduct(sku) : undefined;
-  const subtotal = product ? product.price * qtyNum : 0;
+  const subtotal = product ? product.price_cents * qtyNum : 0;
 
   return (
     <div className="space-y-6">
@@ -14,9 +14,9 @@ export default function CheckoutPage({ searchParams }: { searchParams: { sku?: s
         <h2 className="text-lg font-semibold mb-2">Order Summary</h2>
         {product ? (
           <div className="text-sm">
-            <p><strong>Item:</strong> {product.name}</p>
+            <p><strong>Item:</strong> {product.title}</p>
             <p><strong>Quantity:</strong> {qtyNum}</p>
-            <p className="mt-1"><strong>Subtotal:</strong> ${subtotal.toFixed(2)}</p>
+            <p className="mt-1"><strong>Subtotal:</strong> {formatPrice(subtotal)}</p>
             <p className="text-gray-600">Shipping calculated after address.</p>
           </div>
         ) : (
