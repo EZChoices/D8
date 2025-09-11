@@ -24,7 +24,7 @@ export default function Home() {
 
       <section className="section">
         <h2 className="text-2xl font-bold mb-6">Featured</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featured.map((p) => <ProductCard key={p.slug} {...p} />)}
         </div>
       </section>
