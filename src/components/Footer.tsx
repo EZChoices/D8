@@ -2,29 +2,21 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-white/5">
-      <div className="container py-10 grid gap-8 md:grid-cols-3 text-sm text-ink-300">
-        <div>
-          <div className="font-display text-lg font-bold mb-2 text-ink-100">D8</div>
-          <p>Clean Delta-8, straight from trusted supply to you.</p>
+    <footer className="border-t">
+      <div className="mx-auto max-w-5xl px-4 py-10 grid gap-4 md:grid-cols-2">
+        <div className="text-sm text-gray-600">
+          <p>
+            Products contain hemp-derived cannabinoids. Not for sale to minors. No medical claims. Do not use while driving or operating machinery. Check local regulations.
+          </p>
         </div>
-        <div>
-          <div className="font-semibold mb-2 text-ink-100">Explore</div>
-          <ul className="space-y-2">
-            <li><Link href="/shop" className="hover:underline">Shop</Link></li>
-            <li><Link href="/#why" className="hover:underline">Why Us</Link></li>
-            <li><Link href="/#faq" className="hover:underline">FAQ</Link></li>
-          </ul>
-        </div>
-        <div>
-          <div className="font-semibold mb-2 text-ink-100">Legal</div>
-          <ul className="space-y-2">
-            <li><Link href="/legal/terms" className="hover:underline">Terms</Link></li>
-            <li><Link href="/legal/privacy" className="hover:underline">Privacy</Link></li>
-          </ul>
-        </div>
+        <nav className="text-sm flex flex-wrap gap-4 justify-start md:justify-end">
+          <Link href="/shipping-returns">Shipping & Returns</Link>
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
+          <Link href="/lab-results">Lab Results</Link>
+        </nav>
       </div>
-      <div className="text-center text-xs text-ink-500 pb-8">© {new Date().getFullYear()} D8</div>
+      <div className="text-center text-xs text-gray-500 pb-6">© {new Date().getFullYear()} D8. All rights reserved.</div>
     </footer>
   );
 }
