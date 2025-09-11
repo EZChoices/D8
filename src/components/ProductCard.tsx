@@ -6,7 +6,7 @@ export default function ProductCard(p: Product) {
     <div className="card p-4 hover:-translate-y-0.5 transition">
       <div className="aspect-[4/3] rounded-xl bg-ink-800 border border-white/5 grid place-items-center overflow-hidden mb-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={p.image} alt={p.name} className="object-contain w-full h-full" />
+        <img src={p.image} alt={p.name} className="object-contain w-full h-full max-h-48" />
       </div>
       <div className="flex items-start justify-between gap-3">
         <div>
