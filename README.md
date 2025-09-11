@@ -16,11 +16,12 @@ A minimal e-commerce frontend for Delta-8 products built with Next.js 14, TypeSc
 
 ## Setup
 1. **Requirements**: Node.js 18–22 and npm
-2. Install dependencies:
+2. Copy `.env.example` to `.env` and update the values as needed.
+3. Install dependencies:
    ```bash
    npm install
    ```
-3. Start the development server:
+4. Start the development server:
    ```bash
    npm run dev
    ```
