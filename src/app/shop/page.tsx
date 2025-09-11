@@ -1,7 +1,8 @@
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/products";
+import { getProducts } from "@/lib/db";
 
-export default function ShopPage() {
+export default async function ShopPage() {
+  const products = await getProducts();
   return (
     <div>
       <h1 className="text-3xl font-bold mb-4">Shop All Products</h1>

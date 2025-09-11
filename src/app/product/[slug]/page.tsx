@@ -2,23 +2,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { products, getProduct } from "@/data/products";
+import { products } from "@/data/products";
+import { getProductBySlug } from "@/lib/db";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const product = getProduct(params.slug);
+  const product = await getProductBySlug(params.slug);
   if (!product) return { title: "Product not found" };
   return {
     title: product.name,
-    description: product.description
+    description: product.description,
   };
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  const product = getProduct(params.slug);
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const product = await getProductBySlug(params.slug);
   if (!product) return notFound();
 
   return (
@@ -35,7 +36,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <p><strong>Category:</strong> {product.category}</p>
           <p><strong>SKU:</strong> {product.sku}</p>
         </div>
-        <p className="mt-4 text-2xl font-bold">${product.price.toFixed(2)}</p>
+        <p className="mt-4 text-2xl font-bold">${(product.priceCents / 100).toFixed(2)}</p>
         <div className="mt-6 flex gap-3">
           <Link href={`/checkout?sku=${product.slug}`} className="rounded bg-black px-5 py-3 text-white">Checkout Now</Link>
           <Link href="/shop" className="rounded border px-5 py-3">Back to Shop</Link>

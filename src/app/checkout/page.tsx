@@ -1,10 +1,10 @@
-import { getProduct } from "@/data/products";
+import { getProductBySlug } from "@/lib/db";
 
-export default function CheckoutPage({ searchParams }: { searchParams: { sku?: string; qty?: string } }) {
-  const sku = searchParams?.sku;
+export default async function CheckoutPage({ searchParams }: { searchParams: { sku?: string; qty?: string } }) {
+  const slug = searchParams?.sku;
   const qtyNum = Math.max(1, parseInt(searchParams?.qty || "1", 10) || 1);
-  const product = sku ? getProduct(sku) : undefined;
-  const subtotal = product ? product.price * qtyNum : 0;
+  const product = slug ? await getProductBySlug(slug) : null;
+  const subtotalCents = product ? product.priceCents * qtyNum : 0;
 
   return (
     <div className="space-y-6">
@@ -16,7 +16,7 @@ export default function CheckoutPage({ searchParams }: { searchParams: { sku?: s
           <div className="text-sm">
             <p><strong>Item:</strong> {product.name}</p>
             <p><strong>Quantity:</strong> {qtyNum}</p>
-            <p className="mt-1"><strong>Subtotal:</strong> ${subtotal.toFixed(2)}</p>
+            <p className="mt-1"><strong>Subtotal:</strong> ${(subtotalCents / 100).toFixed(2)}</p>
             <p className="text-gray-600">Shipping calculated after address.</p>
           </div>
         ) : (

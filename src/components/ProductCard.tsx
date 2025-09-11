@@ -20,7 +20,7 @@ export default function ProductCard({ product }: { product: Product }) {
         {product.flavor ? `${product.flavor} • ` : ""}
         {product.potencyMg}mg{product.count ? ` • ${product.count} pcs` : ""}
       </p>
-      <p className="mt-1 font-bold">${product.price.toFixed(2)}</p>
+      <p className="mt-1 font-bold">${(product.priceCents / 100).toFixed(2)}</p>
       <span className="mt-3 inline-block rounded bg-black px-4 py-2 text-sm text-white">View product</span>
     </Link>
   );

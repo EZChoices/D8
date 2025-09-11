@@ -3,7 +3,7 @@
 A minimal e-commerce frontend for Delta-8 products built with Next.js 14, TypeScript, and Tailwind CSS.
 
 ## Features
-- Static product catalog defined in [`src/lib/products.ts`](src/lib/products.ts)
+- Product catalog sourced from `content/products.json` and seeded into a SQLite database via Prisma (with JSON fallback)
 - Product detail pages, shop, checkout, and informational pages (about, contact)
 - Responsive design using Tailwind CSS
 - Node.js test suite ensuring required dependencies
@@ -16,11 +16,17 @@ A minimal e-commerce frontend for Delta-8 products built with Next.js 14, TypeSc
 
 ## Setup
 1. **Requirements**: Node.js 18–22 and npm
-2. Install dependencies:
+2. Copy `.env.example` to `.env` and update the values as needed.
+3. Install dependencies:
    ```bash
    npm install
    ```
-3. Start the development server:
+4. Initialize the database and seed product data:
+   ```bash
+   npx prisma migrate dev
+   npx prisma db seed
+   ```
+5. Start the development server:
    ```bash
    npm run dev
    ```

@@ -1,11 +1,12 @@
 import ProductCard from "@/components/ProductCard";
 import TrustBar from "@/components/TrustBar";
 import EmailSignup from "@/components/EmailSignup";
-import { featuredSlugs, products } from "@/data/products";
+import { featuredSlugs } from "@/data/products";
+import { getProducts } from "@/lib/db";
 
-const featured = products.filter((p) => featuredSlugs.includes(p.slug as any));
-
-export default function Home() {
+export default async function Home() {
+  const products = await getProducts();
+  const featured = products.filter((p) => featuredSlugs.includes(p.slug as any));
   return (
     <div className="space-y-10">
       <section className="text-center">
