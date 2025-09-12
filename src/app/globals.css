@@ -36,3 +36,7 @@ img { height: auto; }
 header.site{position:sticky;top:0;z-index:1000;background:#fff;min-height:56px;border-bottom:1px solid #eee;padding-top:env(safe-area-inset-top)}
 @media (max-width:480px){ .brand{transform:scale(.92)} nav.primary{display:none} }
 .section{padding:var(--space-8) var(--space-4)}
+
+/* Editorial helpers */
+.lede{color:#4b5563;max-width:65ch;margin:.5rem 0 1rem}
+.divider{height:1px;background:#eee;border:0;margin:1rem 0}
