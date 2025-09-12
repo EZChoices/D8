@@ -51,13 +51,25 @@ export default function Header() {
             </span>
           </button>
         </nav>
-        <button
-          aria-label="Open menu"
-          onClick={() => setOpen(true)}
-          className="hamburger inline-flex items-center justify-center rounded border px-3 py-1 md:hidden"
-        >
-          ☰
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            aria-label="Open mini cart"
+            onClick={() => setMiniOpen(true)}
+            className="inline-flex items-center justify-center rounded border px-2 py-1"
+          >
+            🛒
+            <span className="ml-1 inline-flex min-w-[14px] items-center justify-center rounded-full bg-black px-1 text-[10px] text-white">
+              {count}
+            </span>
+          </button>
+          <button
+            aria-label="Open menu"
+            onClick={() => setOpen(true)}
+            className="hamburger inline-flex items-center justify-center rounded border px-3 py-1"
+          >
+            ☰
+          </button>
+        </div>
       </div>
       <HamburgerMenu open={open} onClose={() => setOpen(false)} />
       <MiniCartDrawer open={miniOpen} onClose={() => setMiniOpen(false)} />
