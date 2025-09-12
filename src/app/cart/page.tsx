@@ -1,6 +1,7 @@
 "use client";
 import { useCart } from "@/components/CartContext";
 import Link from "next/link";
+import ResponsiveImage from "@/components/ResponsiveImage";
 
 export default function CartPage() {
   const { items, setQty, remove, clear, total_cents } = useCart();
@@ -25,7 +26,16 @@ export default function CartPage() {
             <tbody>
               {items.map((i) => (
                 <tr key={i.slug} style={{ borderTop: "1px solid #eee" }}>
-                  <td style={{ padding: 8 }}>{i.title}</td>
+                  <td style={{ padding: 8 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      {i.image && (
+                        <span style={{ position: "relative", width: 48, height: 48, display: "inline-block" }}>
+                          <ResponsiveImage src={i.image} alt={i.title} fill sizes="48px" className="object-contain" />
+                        </span>
+                      )}
+                      <span>{i.title}</span>
+                    </div>
+                  </td>
                   <td style={{ padding: 8 }}>
                     <input
                       type="number"
@@ -50,6 +60,11 @@ export default function CartPage() {
               Clear cart
             </button>
             <div className="text-right">
+              <div className="text-sm text-gray-600">
+                {total_cents < 7500
+                  ? `You’re $${((7500 - total_cents) / 100).toFixed(2)} away from free US shipping.`
+                  : "Free US shipping unlocked!"}
+              </div>
               <div className="text-lg font-semibold">Total: ${(total_cents / 100).toFixed(2)}</div>
               <Link href="/checkout" className="mt-2 inline-block rounded bg-black px-4 py-2 text-white">
                 Begin checkout
@@ -61,4 +76,3 @@ export default function CartPage() {
     </section>
   );
 }
-
