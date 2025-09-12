@@ -2,6 +2,7 @@ import { products as allProducts } from "@/data/products";
 import CartFloatButton from "@/components/CartFloatButton";
 import ProductCard from "@/components/ProductCard";
 import CartStickyBar from "@/components/CartStickyBar";
+import CartSummaryChip from "@/components/CartSummaryChip";
 
 export const revalidate = 3600;
 
@@ -26,7 +27,10 @@ export default async function Page({ searchParams }: { searchParams?: { cat?: st
   };
   return (
     <section className="section">
-      <h1>Shop</h1>
+      <div className="flex items-center gap-3">
+        <h1>Shop</h1>
+        <CartSummaryChip />
+      </div>
       {/* Filters removed for a sleeker MVP; category chips retained */}
       <div className="mb-3 flex gap-2 overflow-x-auto pb-2">
         <a href="/shop" className={`rounded border px-3 py-1 ${!cat ? "bg-black text-white" : ""}`}>All</a>

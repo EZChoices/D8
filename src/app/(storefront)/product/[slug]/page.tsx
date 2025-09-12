@@ -41,6 +41,15 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     }, 0);
   }
 
+  // Choose 3 complementary items from other categories
+  const complementary = products
+    .filter((p) => p.slug !== product.slug && p.category !== product.category)
+    .reduce((acc: any[], p) => {
+      if (!acc.find((x) => x.category === p.category)) acc.push(p);
+      return acc;
+    }, [])
+    .slice(0, 3);
+
   return (
     <div className="grid gap-8 md:grid-cols-2">
       <BreadcrumbLd
@@ -108,12 +117,9 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       <div className="md:col-span-2">
         <h2 className="mt-8 text-xl font-semibold">Customers also bought</h2>
         <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {products
-            .filter((p) => p.slug !== product.slug && p.category === product.category)
-            .slice(0, 3)
-            .map((p) => (
-              <ProductCard key={p.slug} product={p} />
-            ))}
+          {complementary.map((p) => (
+            <ProductCard key={p.slug} product={p as any} />
+          ))}
         </div>
       </div>
     </div>

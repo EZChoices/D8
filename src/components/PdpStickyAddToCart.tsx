@@ -59,7 +59,7 @@ export default function PdpStickyAddToCart({
         </button>
         <span className="min-w-[2ch] text-center">{qty > 0 ? qty : 1}</span>
         <button
-          onClick={() => setQty(product.slug, qty + 1 || 2)}
+          onClick={() => (qty > 0 ? setQty(product.slug, qty + 1) : add({ slug: product.slug, title: product.title, price_cents: product.price_cents, image: img }))}
           className="rounded border px-2 py-1"
           aria-label="Increase quantity"
         >
