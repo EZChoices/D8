@@ -6,10 +6,10 @@ import HamburgerMenu from "@/components/HamburgerMenu";
 
 const NAV = [
   { href: "/shop", label: "Shop" },
-  { href: "/lab-tested", label: "Lab-tested" },
+  { href: "/quality", label: "Quality" },
   { href: "/discreet-shipping", label: "Shipping" },
-  { href: "/direct-supply", label: "Supply Chain" },
-  { href: "/lab-results", label: "Lab Results" }
+  { href: "/cart", label: "Cart" },
+  { href: "/payment", label: "Payment" }
 ];
 
 export default function Header() {

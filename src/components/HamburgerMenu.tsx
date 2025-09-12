@@ -30,8 +30,8 @@ export default function HamburgerMenu({
               </Link>
             </li>
             <li>
-              <Link href="/lab-tested" onClick={onClose}>
-                Lab-tested
+              <Link href="/quality" onClick={onClose}>
+                Quality
               </Link>
             </li>
             <li>
@@ -40,13 +40,13 @@ export default function HamburgerMenu({
               </Link>
             </li>
             <li>
-              <Link href="/direct-supply" onClick={onClose}>
-                Supply Chain
+              <Link href="/cart" onClick={onClose}>
+                Cart
               </Link>
             </li>
             <li>
-              <Link href="/lab-results" onClick={onClose}>
-                Lab Results
+              <Link href="/payment" onClick={onClose}>
+                Payment
               </Link>
             </li>
           </ul>
@@ -55,4 +55,3 @@ export default function HamburgerMenu({
     </div>
   );
 }
-

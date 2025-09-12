@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import ConsentBanner from "@/components/ConsentBanner";
 import JsonLd from "@/components/JsonLd";
 import AgeGate from "@/components/AgeGate";
+import ClientProviders from "@/components/ClientProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,9 +48,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <a className="skip" href="#content">Skip to content</a>
-        <Header />
-        <main id="content" className="mx-auto max-w-5xl px-4 py-10">{children}</main>
-        <Footer />
+        <ClientProviders>
+          <Header />
+          <main id="content" className="mx-auto max-w-5xl px-4 py-10">{children}</main>
+          <Footer />
+        </ClientProviders>
         <JsonLd json={org} />
         <JsonLd json={site} />
         {/* Consent Mode defaults and GA4 */}

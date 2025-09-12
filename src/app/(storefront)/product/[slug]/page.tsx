@@ -9,6 +9,7 @@ import BreadcrumbLd from "@/components/BreadcrumbLd";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import JsonLd from "@/components/JsonLd";
 import { productJsonLd } from "@/lib/productJsonLd";
+import PdpStickyAddToCart from "@/components/PdpStickyAddToCart";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -88,11 +89,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           {product.coa_url && <COAModal url={product.coa_url} />}
         </div>
         <div className="mt-8">
-          <StickyCTA
-            title={product.title}
-            price={formatPrice(product.price_cents)}
-            href={`/checkout?sku=${product.slug}`}
-          />
+          <PdpStickyAddToCart product={product} />
         </div>
       </div>
       <JsonLd json={productJsonLd(product)} />
