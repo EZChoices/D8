@@ -14,6 +14,7 @@ export default function Footer() {
           <Link href="/discreet-shipping">Discreet Shipping</Link>
           <Link href="/direct-supply">Supply Chain</Link>
           <Link href="/lab-results">Lab Results</Link>
+          <Link href="/where-we-ship">Where we ship</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
           <Link href="/shipping-returns">Shipping & Returns</Link>

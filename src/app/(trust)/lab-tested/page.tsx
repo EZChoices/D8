@@ -1,16 +1,22 @@
 export default function LabTested() {
   return (
-    <div className="prose max-w-none">
-      <h1>Third-party Lab-tested</h1>
+    <section className="section">
+      <h1>Third‑party Lab‑tested</h1>
       <p>
-        All products are tested by ISO-certified labs. Results are published with every batch.
+        We test each batch via ISO‑accredited labs to confirm potency and screen for contaminants: pesticides,
+        residual solvents, and heavy metals.
       </p>
-      <ul>
-        <li>COA PDFs available</li>
-        <li>Potency &amp; purity verified</li>
-        <li>Screened for pesticides, heavy metals, solvents</li>
-      </ul>
-    </div>
+      <h2>How to Read a COA</h2>
+      <ol>
+        <li>Find product & batch ID</li>
+        <li>Review potency panel</li>
+        <li>Check contaminant panels</li>
+        <li>Confirm test date and lab</li>
+      </ol>
+      <p>
+        <a href="/lab-results">Find your product COA</a>
+      </p>
+    </section>
   );
 }
 

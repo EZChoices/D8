@@ -7,6 +7,8 @@ import COAModal from "@/components/COAModal";
 import StickyCTA from "@/components/StickyCTA";
 import BreadcrumbLd from "@/components/BreadcrumbLd";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import JsonLd from "@/components/JsonLd";
+import { productJsonLd } from "@/lib/productJsonLd";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -93,6 +95,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           />
         </div>
       </div>
+      <JsonLd json={productJsonLd(product)} />
     </div>
   );
 }

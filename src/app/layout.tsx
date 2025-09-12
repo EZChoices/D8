@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ConsentBanner from "@/components/ConsentBanner";
 import JsonLd from "@/components/JsonLd";
+import AgeGate from "@/components/AgeGate";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -74,8 +75,8 @@ gtag('consent','default',{
           </>
         ) : null}
         <ConsentBanner />
+        <AgeGate />
       </body>
     </html>
   );
 }
-

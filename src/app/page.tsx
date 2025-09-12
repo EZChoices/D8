@@ -10,7 +10,10 @@ export default function Home() {
     <div className="space-y-10">
       <section className="text-center">
         <h1 className="text-4xl font-bold mb-2">Pure Delta-8. Nothing Else.</h1>
-        <p className="text-lg text-gray-600">From supply to you — direct, honest, clean.</p>
+        <p className="text-lg text-gray-600">
+          We source Delta‑8 through a tightly controlled seed‑to‑shelf process and verify every batch with
+          ISO‑accredited labs for potency and purity. Explore the latest COAs in our Lab Results hub.
+        </p>
         <div className="mt-6">
           <a href="/shop" className="bg-black text-white px-6 py-3 rounded">
             Browse Products
@@ -32,6 +35,10 @@ export default function Home() {
             </a>
           ))}
         </div>
+        <p className="mt-3 text-sm text-gray-600">
+          Vape Carts: Fast onset • 510‑compatible • Zero nicotine · Disposables: No setup • Rechargeable • Travel‑friendly ·
+          Gummies: 25 mg/gummy • Vegan options • Steady onset
+        </p>
       </section>
 
       <section>

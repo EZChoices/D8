@@ -1,18 +1,35 @@
-import type { MetadataRoute } from "next";
-import { products } from "@/data/products";
+import { MetadataRoute } from "next";
+import fs from "node:fs";
+import path from "node:path";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+function getProducts() {
+  const p = path.join(process.cwd(), "content", "products.json");
+  const raw = fs.readFileSync(p, "utf8");
+  return JSON.parse(raw);
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://d8-orpin.vercel.app";
-  const now = new Date();
-  return [
-    { url: `${base}/`, lastModified: now },
-    { url: `${base}/shop`, lastModified: now },
-    { url: `${base}/about`, lastModified: now },
-    { url: `${base}/contact`, lastModified: now },
-    { url: `${base}/privacy`, lastModified: now },
-    { url: `${base}/terms`, lastModified: now },
-    { url: `${base}/shipping-returns`, lastModified: now },
-    { url: `${base}/lab-results`, lastModified: now },
-    ...products.map((p) => ({ url: `${base}/product/${p.slug}`, lastModified: now }))
+  const staticRoutes = [
+    "",
+    "/shop",
+    "/lab-tested",
+    "/discreet-shipping",
+    "/direct-supply",
+    "/lab-results"
   ];
+  const entries: MetadataRoute.Sitemap = staticRoutes.map((r) => ({
+    url: `${base}${r}`,
+    changeFrequency: "daily",
+    priority: r === "" ? 1 : 0.7
+  }));
+  const products = getProducts();
+  for (const prod of products) {
+    entries.push({
+      url: `${base}/product/${prod.slug}`,
+      changeFrequency: "weekly",
+      priority: 0.8
+    });
+  }
+  return entries;
 }

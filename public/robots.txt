@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://d8-orpin.vercel.app/sitemap.xml
+
