@@ -49,3 +49,16 @@ export function beginCheckout(items: { id: string; name: string; category?: stri
   });
 }
 
+export function viewCart(items: { id: string; name: string; category?: string; price: number; quantity: number }[]) {
+  gtag("event", "view_cart", {
+    currency: "USD",
+    value: items.reduce((v, i) => v + i.price * i.quantity, 0),
+    items: items.map((i) => ({
+      item_id: i.id,
+      item_name: i.name,
+      item_category: i.category,
+      price: i.price,
+      quantity: i.quantity
+    }))
+  });
+}

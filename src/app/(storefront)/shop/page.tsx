@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { products as allProducts } from "@/data/products";
@@ -7,19 +5,10 @@ import CartFloatButton from "@/components/CartFloatButton";
 
 export const revalidate = 3600;
 
-export default async function Page({ searchParams }: { searchParams?: { cat?: string; q?: string; min?: string; max?: string } }) {
+export default async function Page({ searchParams }: { searchParams?: { cat?: string } }) {
   const products = allProducts as any[];
   const cat = searchParams?.cat ? decodeURIComponent(searchParams.cat) : undefined;
-  const q = (searchParams?.q || "").toLowerCase();
-  const min = parseInt(searchParams?.min || "", 10) || 0;
-  const max = parseInt(searchParams?.max || "", 10) || Number.MAX_SAFE_INTEGER;
-  const filtered = products.filter((p: any) => {
-    if (cat && p.category !== cat) return false;
-    if (q && !(`${p.title} ${p.flavor || ""}`.toLowerCase().includes(q))) return false;
-    const mg = p.potency_mg || 0;
-    if (mg < min || mg > max) return false;
-    return true;
-  });
+  const filtered = cat ? products.filter((p: any) => p.category === cat) : products;
   const categories = Array.from(new Set(products.map((p: any) => p.category)));
   const intros: Record<string, string> = {
     "Vape Carts":
@@ -38,20 +27,7 @@ export default async function Page({ searchParams }: { searchParams?: { cat?: st
   return (
     <section className="section">
       <h1>Shop</h1>
-      <form className="mb-3 flex flex-wrap items-end gap-2" action="" method="get">
-        <input
-          type="search"
-          name="q"
-          placeholder="Search products"
-          defaultValue={q}
-          className="rounded border px-3 py-1"
-        />
-        <label className="text-sm">Min mg <input name="min" type="number" defaultValue={min || ""} className="ml-1 w-20 rounded border px-2 py-1" /></label>
-        <label className="text-sm">Max mg <input name="max" type="number" defaultValue={Number.isFinite(max) && max < 1e15 ? max : ""} className="ml-1 w-20 rounded border px-2 py-1" /></label>
-        {cat && <input type="hidden" name="cat" value={cat} />}
-        <button className="rounded bg-black px-3 py-1 text-white">Filter</button>
-        <a href="/shop" className="rounded border px-3 py-1">Reset</a>
-      </form>
+      {/* Filters removed for a sleeker MVP; category chips retained */}
       <div className="mb-3 flex gap-2 overflow-x-auto pb-2">
         <a href="/shop" className={`rounded border px-3 py-1 ${!cat ? "bg-black text-white" : ""}`}>All</a>
         {categories.map((c: string) => (
