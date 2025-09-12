@@ -4,12 +4,14 @@ export default function DiscreetShipping() {
   return (
     <section className="section">
       <h1>Discreet Shipping</h1>
+      <p className="lede">Plain packaging, secure seals, and privacy-focused documentation—at home and across borders.</p>
       <p>
         We prioritize privacy and product integrity from our facility to your doorstep. Packaging is plain and
         unbranded, and inner packaging is sealed and tamper-evident. We use clear, customs-friendly descriptions and a
         neutral billing descriptor.
       </p>
 
+      <hr className="divider" />
       <h2>Packaging & Tamper-evidence</h2>
       <ul>
         <li>Plain outer mailer or box with no product names on the exterior.</li>
@@ -18,6 +20,7 @@ export default function DiscreetShipping() {
         <li>Desiccants and cushioning as needed to protect contents.</li>
       </ul>
 
+      <hr className="divider" />
       <h2>Delivery Options</h2>
       <ul>
         <li>Economy, Standard, and Priority options; tracking is emailed at dispatch.</li>
@@ -25,6 +28,7 @@ export default function DiscreetShipping() {
         <li>Typical domestic delivery: 2–5 business days by region.</li>
       </ul>
 
+      <hr className="divider" />
       <h2>International Shipping</h2>
       <ul>
         <li>Customs-friendly descriptions; no sensitive product names on exterior documents.</li>
@@ -42,6 +46,7 @@ export default function DiscreetShipping() {
         ))}
       </div>
 
+      <hr className="divider" />
       <h2 className="mt-6">Safety & Handling</h2>
       <ul>
         <li>Temperature-aware packing for heat-sensitive items during warm seasons.</li>
