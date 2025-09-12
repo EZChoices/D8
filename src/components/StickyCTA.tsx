@@ -3,11 +3,11 @@
 export default function StickyCTA({
   title,
   price,
-  onClick
+  href
 }: {
   title: string;
   price: string;
-  onClick: () => void;
+  href: string;
 }) {
   return (
     <div
@@ -19,14 +19,13 @@ export default function StickyCTA({
         <strong className="block">{title}</strong>
         <span>{price}</span>
       </div>
-      <button
-        onClick={onClick}
+      <a
+        href={href}
         aria-label="Add to cart"
         className="rounded bg-black px-4 py-2 text-white"
       >
         Add to Cart
-      </button>
+      </a>
     </div>
   );
 }
-

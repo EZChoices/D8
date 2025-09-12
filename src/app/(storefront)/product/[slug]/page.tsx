@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { products, getProduct, formatPrice } from "@/data/products";
 import COAModal from "@/components/COAModal";
 import StickyCTA from "@/components/StickyCTA";
+import BreadcrumbLd from "@/components/BreadcrumbLd";
+import ResponsiveImage from "@/components/ResponsiveImage";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -23,11 +25,25 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   const product = getProduct(params.slug);
   if (!product) return notFound();
   const sku = product.slug.toUpperCase();
+  const base = "https://d8-orpin.vercel.app";
 
   return (
     <div className="grid gap-8 md:grid-cols-2">
+      <BreadcrumbLd
+        trail={[
+          { name: "Home", url: `${base}/` },
+          { name: "Shop", url: `${base}/shop` },
+          { name: product.title, url: `${base}/product/${product.slug}` }
+        ]}
+      />
       <div className="relative aspect-square w-full">
-        <Image src={product.images[0]} alt={product.title} fill className="object-contain" />
+        <ResponsiveImage
+          src={product.images[0]}
+          alt={product.title}
+          fill
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-contain"
+        />
       </div>
       <div>
         <h1 className="text-3xl font-bold">{product.title}</h1>
@@ -73,9 +89,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <StickyCTA
             title={product.title}
             price={formatPrice(product.price_cents)}
-            onClick={() => {
-              window.location.href = `/checkout?sku=${product.slug}`;
-            }}
+            href={`/checkout?sku=${product.slug}`}
           />
         </div>
       </div>

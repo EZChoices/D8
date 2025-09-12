@@ -9,12 +9,12 @@ import JsonLd from "@/components/JsonLd";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "D8 — Premium Delta-8. Nothing Else.", template: "%s · D8" },
+  title: { default: "D8 - Premium Delta-8. Nothing Else.", template: "%s | D8" },
   description: "Clean, honest, third-party lab-tested Delta-8.",
   metadataBase: new URL("https://d8-orpin.vercel.app"),
   alternates: { canonical: "/" },
   openGraph: {
-    title: "D8 — Premium Delta-8. Nothing Else.",
+    title: "D8 - Premium Delta-8. Nothing Else.",
     description: "Clean, honest, third-party lab-tested Delta-8.",
     type: "website",
     url: "https://d8-orpin.vercel.app",
@@ -41,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       "query-input": "required name=query"
     }
   };
+  const GA_ID = process.env.NEXT_PUBLIC_GA4_ID;
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -62,14 +63,19 @@ gtag('consent','default',{
             `.trim()
           }}
         />
-        <script async src={"https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `gtag('js', new Date()); gtag('config', 'G-XXXXXXX', { anonymize_ip: true });`
-          }}
-        />
+        {GA_ID ? (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `gtag('js', new Date()); gtag('config', '${GA_ID}', { anonymize_ip: true });`
+              }}
+            />
+          </>
+        ) : null}
         <ConsentBanner />
       </body>
     </html>
   );
 }
+

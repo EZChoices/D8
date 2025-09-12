@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import Link from "next/link";
 import { Product, formatPrice } from "@/data/products";
 
@@ -6,7 +6,7 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/product/${product.slug}`} className="block rounded border p-4 hover:shadow-md transition">
       <div className="relative mb-3 aspect-square">
-        <Image
+        <ResponsiveImage
           src={product.images[0]}
           alt={product.title}
           fill
