@@ -35,11 +35,6 @@ export default function HamburgerMenu({
               </Link>
             </li>
             <li>
-              <Link href="/cart" onClick={onClose}>
-                Cart
-              </Link>
-            </li>
-            <li>
               <Link href="/payment" onClick={onClose}>
                 Shipping & Payment
               </Link>
