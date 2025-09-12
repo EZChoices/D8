@@ -80,6 +80,13 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             ))}
           </div>
         )}
+        {product.effects && product.effects.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1 text-xs text-gray-700">
+            {product.effects.map((e) => (
+              <span key={e} className="rounded border px-2 py-0.5">{e}</span>
+            ))}
+          </div>
+        )}
         <div className="mt-4 space-y-1 text-sm text-gray-600">
           <p>
             <strong>Potency:</strong> {product.potency_mg}mg
@@ -92,12 +99,20 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <p>
             <strong>Category:</strong> {product.category}
           </p>
+          {product.size_label && (
+            <p>
+              <strong>Size:</strong> {product.size_label}
+            </p>
+          )}
           <p>
             <strong>SKU:</strong> {sku}
           </p>
           <p>
             <strong>Batch ID:</strong> {product.batch_id}
           </p>
+          {product.coa_url && (
+            <p><COAModal url={product.coa_url} /></p>
+          )}
         </div>
         <p className="mt-4 text-2xl font-bold">{formatPrice(product.price_cents)}</p>
         <p className="text-sm text-green-700">Buy 2 save 10% · 3+ save 15%</p>
@@ -124,4 +139,5 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+
 
