@@ -34,6 +34,11 @@ export default function PdpStickyAddToCart({
             Qty: {qty} · Subtotal: ${((product.price_cents * qty) / 100).toFixed(2)}
           </span>
         )}
+        {qty >= 2 && (
+          <div className="text-xs text-green-700">
+            Bundle savings applied: {qty >= 3 ? 15 : 10}%
+          </div>
+        )}
       </div>
       <div className="flex items-center gap-2">
         <button
