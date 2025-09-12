@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { products } from "@/data/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://d8-<your-vercel-subdomain>.vercel.app";
+  const base = "https://d8-orpin.vercel.app";
   const now = new Date();
   return [
     { url: `${base}/`, lastModified: now },

@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 const NAV = [
   { href: "/shop", label: "Shop" },
@@ -12,22 +14,40 @@ const NAV = [
 
 export default function Header() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   return (
-    <header className="border-b">
-      <div className="mx-auto max-w-5xl px-4 py-4 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold tracking-tight">D8</Link>
-        <nav className="flex gap-6 text-sm">
+    <header className="sticky top-0 z-50 border-b bg-white">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+        <Link href="/" className="brand text-xl font-bold tracking-tight" aria-label="D8 Home">
+          D8
+        </Link>
+        <nav
+          aria-label="primary"
+          className="primary hidden gap-6 text-sm md:flex"
+        >
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={pathname === item.href ? "font-semibold" : "text-gray-600 hover:text-gray-900"}
+              className={
+                pathname === item.href
+                  ? "font-semibold"
+                  : "text-gray-600 hover:text-gray-900"
+              }
             >
               {item.label}
             </Link>
           ))}
         </nav>
+        <button
+          aria-label="Open menu"
+          onClick={() => setOpen(true)}
+          className="hamburger inline-flex items-center justify-center rounded border px-3 py-1 md:hidden"
+        >
+          ☰
+        </button>
       </div>
+      <HamburgerMenu open={open} onClose={() => setOpen(false)} />
     </header>
   );
 }

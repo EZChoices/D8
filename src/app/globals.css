@@ -6,6 +6,13 @@
 :root {
   --bg: #ffffff;
   --fg: #111111;
+  /* spacing scale */
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
 }
 
 html, body { height: 100%; }
@@ -13,3 +20,14 @@ body { background: var(--bg); color: var(--fg); }
 
 /* Link focus states */
 :focus-visible { outline: 2px solid #111; outline-offset: 2px; }
+
+/* Fluid typography for headings and body */
+html { font-size: 100%; }
+h1 { font-size: clamp(1.75rem, 2.5vw + 1rem, 3rem); line-height: 1.1; margin: var(--space-6) 0 var(--space-4); }
+h2 { font-size: clamp(1.25rem, 1.6vw + 1rem, 2rem); line-height: 1.2; margin: var(--space-4) 0 var(--space-3); }
+p, li { font-size: clamp(0.95rem, 1.2vw + .6rem, 1.125rem); line-height: 1.55; }
+img { height: auto; }
+
+/* Skip link accessibility helper */
+.skip { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.skip:focus { position: absolute; left: .5rem; top: .5rem; width: auto; height: auto; background: #000; color: #fff; padding: .5rem; border-radius: .25rem; z-index: 2000; }

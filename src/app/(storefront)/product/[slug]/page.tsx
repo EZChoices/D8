@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { products, getProduct, formatPrice } from "@/data/products";
 import COAModal from "@/components/COAModal";
+import StickyCTA from "@/components/StickyCTA";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -67,6 +68,15 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             Back to Shop
           </Link>
           {product.coa_url && <COAModal url={product.coa_url} />}
+        </div>
+        <div className="mt-8">
+          <StickyCTA
+            title={product.title}
+            price={formatPrice(product.price_cents)}
+            onClick={() => {
+              window.location.href = `/checkout?sku=${product.slug}`;
+            }}
+          />
         </div>
       </div>
     </div>
