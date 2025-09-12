@@ -21,16 +21,12 @@ export default function Page({ searchParams }: { searchParams?: { q?: string; al
   return (
     <section className="section">
       <h1>Quality & Lab Results</h1>
-      <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "1fr", marginBottom: "1rem" }}>
-        <div style={{ position: "relative", width: "100%", aspectRatio: "16/9" }}>
-          <ResponsiveImage
-            src="https://placehold.co/1200x675?text=Lab+Testing"
-            alt="Quality and lab testing banner"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
+      <div style={{ display: "grid", gap: "8px", gridTemplateColumns: "2fr 1fr 1fr", marginBottom: "1rem" }}>
+        {(products.slice(0, 3) as any[]).map((p: any, idx: number) => (
+          <div key={p.slug} style={{ position: "relative", width: "100%", aspectRatio: idx === 0 ? "16/9" : "1/1" }}>
+            <ResponsiveImage src={p.images?.[0]} alt={p.title} fill sizes="(min-width:768px) 33vw, 100vw" className="object-cover" />
+          </div>
+        ))}
       </div>
 
       <h2>Every Batch, Verified</h2>
