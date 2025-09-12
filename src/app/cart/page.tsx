@@ -2,9 +2,16 @@
 import { useCart } from "@/components/CartContext";
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import { beginCheckout } from "@/lib/ga";
 
 export default function CartPage() {
-  const { items, setQty, remove, clear, total_cents } = useCart();
+  const { items, setQty, remove, clear } = useCart();
+  const count = items.reduce((n, i) => n + i.quantity, 0);
+  const subtotal = items.reduce((s, i) => s + i.price_cents * i.quantity, 0);
+  const discountRate = count >= 3 ? 0.15 : count >= 2 ? 0.1 : 0;
+  const discount_cents = Math.round(subtotal * discountRate);
+  const total_after = subtotal - discount_cents;
+
   return (
     <section className="section">
       <h1>Cart</h1>
@@ -60,13 +67,26 @@ export default function CartPage() {
               Clear cart
             </button>
             <div className="text-right">
+              {discountRate > 0 && (
+                <div className="text-sm text-green-700">
+                  Bundle discount applied: {Math.round(discountRate * 100)}% (−${(discount_cents / 100).toFixed(2)})
+                </div>
+              )}
               <div className="text-sm text-gray-600">
-                {total_cents < 7500
-                  ? `You’re $${((7500 - total_cents) / 100).toFixed(2)} away from free US shipping.`
+                {total_after < 7500
+                  ? `You’re $${((7500 - total_after) / 100).toFixed(2)} away from free US shipping.`
                   : "Free US shipping unlocked!"}
               </div>
-              <div className="text-lg font-semibold">Total: ${(total_cents / 100).toFixed(2)}</div>
-              <Link href="/checkout" className="mt-2 inline-block rounded bg-black px-4 py-2 text-white">
+              <div className="text-lg font-semibold">Total: ${(total_after / 100).toFixed(2)}</div>
+              <Link
+                href="/checkout"
+                onClick={() =>
+                  beginCheckout(
+                    items.map((i) => ({ id: i.slug, name: i.title, price: i.price_cents / 100, quantity: i.quantity }))
+                  )
+                }
+                className="mt-2 inline-block rounded bg-black px-4 py-2 text-white"
+              >
                 Begin checkout
               </Link>
             </div>

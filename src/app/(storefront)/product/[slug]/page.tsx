@@ -11,6 +11,8 @@ import JsonLd from "@/components/JsonLd";
 import { productJsonLd } from "@/lib/productJsonLd";
 import PdpStickyAddToCart from "@/components/PdpStickyAddToCart";
 import ProductCard from "@/components/ProductCard";
+import { viewItem } from "@/lib/ga";
+import { useEffect } from "react";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -30,6 +32,14 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   if (!product) return notFound();
   const sku = product.slug.toUpperCase();
   const base = "https://d8-orpin.vercel.app";
+
+  // fire view_item on client after hydration
+  if (typeof window !== "undefined") {
+    // Minimal guard to avoid SSR warnings
+    setTimeout(() => {
+      viewItem({ id: product.slug, name: product.title, category: product.category, price: product.price_cents / 100 });
+    }, 0);
+  }
 
   return (
     <div className="grid gap-8 md:grid-cols-2">

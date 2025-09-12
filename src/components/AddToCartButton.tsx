@@ -1,5 +1,6 @@
 "use client";
 import { useCart } from "@/components/CartContext";
+import { addToCart as gaAddToCart } from "@/lib/ga";
 
 export default function AddToCartButton({
   slug,
@@ -21,6 +22,7 @@ export default function AddToCartButton({
     <button
       onClick={() => {
         add({ slug, title, price_cents, image });
+        gaAddToCart({ id: slug, name: title, price: price_cents / 100, quantity: 1 });
         onAdded?.();
       }}
       className="rounded bg-black px-4 py-2 text-white"
