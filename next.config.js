@@ -10,6 +10,13 @@ const nextConfig = {
       }
     ]
   },
+  async redirects() {
+    return [
+      { source: '/lab-tested', destination: '/quality', permanent: true },
+      { source: '/lab-results', destination: '/quality#lab-results', permanent: true },
+      { source: '/direct-supply', destination: '/quality', permanent: true }
+    ]
+  },
   async headers() {
     return [
       {
