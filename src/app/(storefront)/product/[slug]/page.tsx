@@ -13,6 +13,7 @@ import PdpStickyAddToCart from "@/components/PdpStickyAddToCart";
 import ProductCard from "@/components/ProductCard";
 import { viewItem } from "@/lib/ga";
 import { useEffect } from "react";
+import PdpAvailability from "@/components/PdpAvailability";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -109,9 +110,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           </Link>
           {product.coa_url && <COAModal url={product.coa_url} />}
         </div>
-        <div className="mt-8">
-          <PdpStickyAddToCart product={product} />
-        </div>
+        <PdpAvailability product={product} />
       </div>
       <JsonLd json={productJsonLd(product)} />
       <div className="md:col-span-2">

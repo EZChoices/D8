@@ -9,6 +9,8 @@ export type Product = {
   images: string[];
   coa_url?: string;
   batch_id: string;
+  effects?: string[]; // e.g., ['Sleep','Relax','Focus','Social']
+  size_label?: string; // e.g., '20 ct', '3.5g', '4-pack'
 };
 
 import productsJson from "../../content/products.json" assert { type: "json" };
