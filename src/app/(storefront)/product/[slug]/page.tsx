@@ -90,6 +90,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           </p>
         </div>
         <p className="mt-4 text-2xl font-bold">{formatPrice(product.price_cents)}</p>
+        <p className="text-sm text-green-700">Buy 2 save 10% · 3+ save 15%</p>
         <div className="mt-6 flex gap-3 flex-wrap">
           <Link href={`/checkout?sku=${product.slug}`} className="rounded bg-black px-5 py-3 text-white">
             Checkout Now

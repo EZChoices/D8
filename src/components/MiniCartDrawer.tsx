@@ -2,11 +2,17 @@
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useCart } from "@/components/CartContext";
-import { beginCheckout } from "@/lib/ga";
+import { beginCheckout, viewCart } from "@/lib/ga";
+import { useEffect } from "react";
 
 export default function MiniCartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { items, setQty, remove, total_cents } = useCart();
   if (!open) return null;
+  useEffect(() => {
+    if (!open) return;
+    viewCart(items.map((i) => ({ id: i.slug, name: i.title, price: i.price_cents / 100, quantity: i.quantity })));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
   const handleBegin = () => {
     beginCheckout(items.map((i) => ({ id: i.slug, name: i.title, price: i.price_cents / 100, quantity: i.quantity })));
     onClose();
@@ -70,4 +76,3 @@ export default function MiniCartDrawer({ open, onClose }: { open: boolean; onClo
     </div>
   );
 }
-

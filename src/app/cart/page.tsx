@@ -2,7 +2,8 @@
 import { useCart } from "@/components/CartContext";
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import { beginCheckout } from "@/lib/ga";
+import { beginCheckout, viewCart } from "@/lib/ga";
+import { useEffect } from "react";
 
 export default function CartPage() {
   const { items, setQty, remove, clear } = useCart();
@@ -11,6 +12,11 @@ export default function CartPage() {
   const discountRate = count >= 3 ? 0.15 : count >= 2 ? 0.1 : 0;
   const discount_cents = Math.round(subtotal * discountRate);
   const total_after = subtotal - discount_cents;
+  useEffect(() => {
+    viewCart(items.map((i) => ({ id: i.slug, name: i.title, price: i.price_cents / 100, quantity: i.quantity })));
+    // we intentionally do not react to item changes to avoid spamming
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className="section">
