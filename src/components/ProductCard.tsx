@@ -36,9 +36,22 @@ export default function ProductCard({ product }: { product: Product }) {
             ))}
           </div>
         )}
+        {product.effects && product.effects.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1 text-xs text-gray-700">
+            {product.effects.map((e) => (
+              <span key={e} className="rounded border px-2 py-0.5">{e}</span>
+            ))}
+          </div>
+        )}
       </Link>
       <p className="mt-1 font-bold">{formatPrice(product.price_cents)}</p>
+      {product.size_label && (
+        <p className="text-xs text-gray-600">Size: {product.size_label}</p>
+      )}
       <p className="text-xs text-green-700">Buy 2 save 10% · 3+ save 15%</p>
+      {['Capsules / Softgels','Gummies','Tinctures / Oils'].includes(product.category) && (
+        <p className="text-xs text-indigo-700">Subscribe & save 10% (coming soon)</p>
+      )}
       {!restricted ? (
         <QuickAdd
           slug={product.slug}

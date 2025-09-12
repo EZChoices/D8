@@ -4,9 +4,11 @@ import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { beginCheckout, viewCart } from "@/lib/ga";
 import { useEffect } from "react";
+import { useShipping } from "@/components/ShippingContext";
 
 export default function CartPage() {
   const { items, setQty, remove, clear } = useCart();
+  const { state, setState } = useShipping();
   const count = items.reduce((n, i) => n + i.quantity, 0);
   const subtotal = items.reduce((s, i) => s + i.price_cents * i.quantity, 0);
   const discountRate = count >= 3 ? 0.15 : count >= 2 ? 0.1 : 0;
@@ -21,6 +23,16 @@ export default function CartPage() {
   return (
     <section className="section">
       <h1>Cart</h1>
+      <div className="mb-3 flex items-center gap-2">
+        <label className="text-sm">Ship to</label>
+        <select value={state || ''} onChange={(e)=> setState(e.target.value || null)} className="rounded border px-2 py-1">
+          <option value="">Select state…</option>
+          {['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'].map(s=> (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+        {state && <span className="text-xs text-gray-600">Saved</span>}
+      </div>
       {items.length === 0 ? (
         <p>
           Your cart is empty. <Link href="/shop">Browse products</Link>.
@@ -84,6 +96,9 @@ export default function CartPage() {
                   : "Free US shipping unlocked!"}
               </div>
               <div className="text-lg font-semibold">Total: ${(total_after / 100).toFixed(2)}</div>
+              {!state && (
+                <div className="mt-2 text-xs text-red-700">Select shipping state to checkout</div>
+              )}
               <Link
                 href="/checkout"
                 onClick={() =>
