@@ -8,14 +8,16 @@ function getProducts() {
   return JSON.parse(raw);
 }
 
-export default function Page({ searchParams }: { searchParams?: { q?: string } }) {
+export default function Page({ searchParams }: { searchParams?: { q?: string; all?: string } }) {
   const products = getProducts();
   const q = (searchParams?.q || "").toLowerCase();
-  const rows = q
+  let rows = q
     ? products.filter(
         (p: any) => p.title.toLowerCase().includes(q) || (p.batch_id || "").toLowerCase().includes(q)
       )
-    : products.slice(0, 6);
+    : products;
+  const showAll = searchParams?.all === "1" || q.length > 0;
+  if (!showAll) rows = rows.slice(0, 8);
   return (
     <section className="section">
       <h1>Quality & Lab Results</h1>
@@ -74,14 +76,17 @@ export default function Page({ searchParams }: { searchParams?: { q?: string } }
             </tr>
           </thead>
           <tbody>
-            {rows.map((p: any) => (
+            {rows.map((p: any) => {
+              const status = p.test_status || "PASS";
+              const tested = p.tested_date || "Recent";
+              return (
               <tr key={p.slug} style={{ borderTop: "1px solid #eee" }}>
                 <td style={{ padding: 8 }}>
                   <a href={`/product/${p.slug}`}>{p.title}</a>
                 </td>
                 <td style={{ padding: 8 }}>{p.batch_id || "—"}</td>
                 <td style={{ padding: 8 }}>{p.potency_mg || "—"}</td>
-                <td style={{ padding: 8 }}>{p.tested_date || "—"}</td>
+                <td style={{ padding: 8 }}>{tested}</td>
                 <td style={{ padding: 8 }}>
                   <span
                     style={{
@@ -89,16 +94,16 @@ export default function Page({ searchParams }: { searchParams?: { q?: string } }
                       padding: "2px 8px",
                       borderRadius: 999,
                       background:
-                        (p.test_status || "PENDING") === "PASS"
+                        status === "PASS"
                           ? "#0AAE4F"
-                          : (p.test_status || "PENDING") === "ATTENTION"
+                          : status === "ATTENTION"
                           ? "#E69E00"
                           : "#8892A2",
                       color: "#fff",
                       fontSize: 12
                     }}
                   >
-                    {p.test_status || "PENDING"}
+                    {status}
                   </span>
                 </td>
                 <td style={{ padding: 8 }}>
@@ -107,15 +112,19 @@ export default function Page({ searchParams }: { searchParams?: { q?: string } }
                       PDF
                     </a>
                   ) : (
-                    "—"
+                    <a href={`/product/${p.slug}`}>Details</a>
                   )}
                 </td>
               </tr>
-            ))}
+            );})}
           </tbody>
         </table>
       </div>
+      {!showAll && (
+        <p style={{ marginTop: "0.75rem" }}>
+          <a href="/quality?all=1#lab-results">View all lab results</a>
+        </p>
+      )}
     </section>
   );
 }
-

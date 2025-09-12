@@ -2,19 +2,15 @@ import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
-
-function getProducts() {
-  const p = path.join(process.cwd(), "content", "products.json");
-  const raw = fs.readFileSync(p, "utf8");
-  return JSON.parse(raw);
-}
+import { products as allProducts } from "@/data/products";
 
 export const revalidate = 3600;
 
 export default async function Page({ searchParams }: { searchParams?: { cat?: string } }) {
-  const products = getProducts();
+  const products = allProducts as any[];
   const cat = searchParams?.cat ? decodeURIComponent(searchParams.cat) : undefined;
   const filtered = cat ? products.filter((p: any) => p.category === cat) : products;
+  const categories = Array.from(new Set(products.map((p: any) => p.category)));
   const intros: Record<string, string> = {
     "Vape Carts":
       "Pick carts for fast onset and precise control—ideal if you already have a 510 battery. Choose your strain and potency for a consistent, clean draw.",
@@ -32,6 +28,18 @@ export default async function Page({ searchParams }: { searchParams?: { cat?: st
   return (
     <section className="section">
       <h1>Shop</h1>
+      <div className="mb-3 flex gap-2 overflow-x-auto pb-2">
+        <a href="/shop" className={`rounded border px-3 py-1 ${!cat ? "bg-black text-white" : ""}`}>All</a>
+        {categories.map((c: string) => (
+          <a
+            key={c}
+            href={`/shop?cat=${encodeURIComponent(c)}`}
+            className={`rounded border px-3 py-1 ${cat === c ? "bg-black text-white" : ""}`}
+          >
+            {c}
+          </a>
+        ))}
+      </div>
       {cat ? (
         <p>
           <strong>{cat}:</strong> {intros[cat] || "Browse products in this category."}

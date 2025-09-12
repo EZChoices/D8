@@ -7,6 +7,7 @@ import ConsentBanner from "@/components/ConsentBanner";
 import JsonLd from "@/components/JsonLd";
 import AgeGate from "@/components/AgeGate";
 import ClientProviders from "@/components/ClientProviders";
+import AnnouncementBar from "@/components/AnnouncementBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <a className="skip" href="#content">Skip to content</a>
         <ClientProviders>
+          <AnnouncementBar />
           <Header />
           <main id="content" className="mx-auto max-w-5xl px-4 py-10">{children}</main>
           <Footer />

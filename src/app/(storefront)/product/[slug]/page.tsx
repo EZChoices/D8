@@ -10,6 +10,7 @@ import ResponsiveImage from "@/components/ResponsiveImage";
 import JsonLd from "@/components/JsonLd";
 import { productJsonLd } from "@/lib/productJsonLd";
 import PdpStickyAddToCart from "@/components/PdpStickyAddToCart";
+import ProductCard from "@/components/ProductCard";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -93,6 +94,17 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
         </div>
       </div>
       <JsonLd json={productJsonLd(product)} />
+      <div className="md:col-span-2">
+        <h2 className="mt-8 text-xl font-semibold">Customers also bought</h2>
+        <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {products
+            .filter((p) => p.slug !== product.slug && p.category === product.category)
+            .slice(0, 3)
+            .map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+        </div>
+      </div>
     </div>
   );
 }
