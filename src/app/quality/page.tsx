@@ -21,6 +21,7 @@ export default function Page({ searchParams }: { searchParams?: { q?: string; al
   return (
     <section className="section">
       <h1>Quality & Lab Results</h1>
+      <p className="lede">Transparent testing and a controlled supply chain so you know exactly what you’re getting—batch by batch.</p>
       <div style={{ display: "grid", gap: "8px", gridTemplateColumns: "2fr 1fr 1fr", marginBottom: "1rem" }}>
         {(products.slice(0, 3) as any[]).map((p: any, idx: number) => (
           <div key={p.slug} style={{ position: "relative", width: "100%", aspectRatio: idx === 0 ? "16/9" : "1/1" }}>
@@ -29,6 +30,7 @@ export default function Page({ searchParams }: { searchParams?: { q?: string; al
         ))}
       </div>
 
+      <hr className="divider" />
       <h2>Every Batch, Verified</h2>
       <p>
         We test each batch via ISO‑accredited labs to confirm potency and screen for contaminants: pesticides,
@@ -43,12 +45,14 @@ export default function Page({ searchParams }: { searchParams?: { q?: string; al
         <li>Confirm test date and lab</li>
       </ol>
 
+      <hr className="divider" />
       <h2>Direct Supply Chain</h2>
       <p>
         We coordinate sourcing, extraction, formulation, filling, and testing to keep quality consistent. Partners
         maintain GMP‑aligned practices and standardized QC checks. Every run is traceable by batch ID.
       </p>
 
+      <hr className="divider" />
       <h2 id="lab-results">Find Your COA</h2>
       <form action="" method="get" style={{ marginBottom: "0.75rem" }}>
         <input
@@ -124,3 +128,6 @@ export default function Page({ searchParams }: { searchParams?: { q?: string; al
     </section>
   );
 }
+
+
+

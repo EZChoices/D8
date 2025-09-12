@@ -2,6 +2,7 @@ import ProductCard from "@/components/ProductCard";
 import TrustBar from "@/components/TrustBar";
 import EmailSignup from "@/components/EmailSignup";
 import { products, categories } from "@/data/products";
+import CartFloatButton from "@/components/CartFloatButton";
 
 const primaryCats = ["Vape Carts", "Disposables", "Gummies"] as const;
 const featured = primaryCats
@@ -58,6 +59,7 @@ export default function Home() {
         <p className="text-sm text-gray-600">No spam, ever.</p>
         <EmailSignup />
       </section>
+      <CartFloatButton />
     </div>
   );
 }

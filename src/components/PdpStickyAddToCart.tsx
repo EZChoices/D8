@@ -20,6 +20,10 @@ export default function PdpStickyAddToCart({
       return () => clearTimeout(t);
     }
   }, [justAdded]);
+  const rawSubtotal = (product.price_cents * (qty || 1)) / 100;
+  const rate = qty >= 3 ? 0.15 : qty >= 2 ? 0.1 : 0;
+  const discounted = rate > 0 ? rawSubtotal * (1 - rate) : rawSubtotal;
+
   return (
     <div
       role="region"
@@ -31,13 +35,17 @@ export default function PdpStickyAddToCart({
         <span>${(product.price_cents / 100).toFixed(2)}</span>
         {qty > 0 && (
           <span className="ml-3 text-sm text-gray-600">
-            Qty: {qty} · Subtotal: ${((product.price_cents * qty) / 100).toFixed(2)}
+            Qty: {qty} · Subtotal: {rate > 0 ? (
+              <>
+                <s>${rawSubtotal.toFixed(2)}</s> → <strong>${discounted.toFixed(2)}</strong>
+              </>
+            ) : (
+              <>${rawSubtotal.toFixed(2)}</>
+            )}
           </span>
         )}
         {qty >= 2 && (
-          <div className="text-xs text-green-700">
-            Bundle savings applied: {qty >= 3 ? 15 : 10}%
-          </div>
+          <div className="text-xs text-green-700">Bundle savings applied: {qty >= 3 ? 15 : 10}%</div>
         )}
       </div>
       <div className="flex items-center gap-2">
