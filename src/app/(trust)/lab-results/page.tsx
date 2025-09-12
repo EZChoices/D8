@@ -1,46 +1,61 @@
-"use client";
+import fs from "node:fs";
+import path from "node:path";
 
-import { useState } from "react";
-import { products } from "@/data/products";
+function getProducts() {
+  const p = path.join(process.cwd(), "content", "products.json");
+  const raw = fs.readFileSync(p, "utf8");
+  return JSON.parse(raw);
+}
 
-export default function LabResultsPage() {
-  const [q, setQ] = useState("");
-  const rows = products.filter((p) => {
-    const term = q.toLowerCase();
-    return (
-      p.title.toLowerCase().includes(term) || p.batch_id.toLowerCase().includes(term)
-    );
-  });
-
+export default function Page() {
+  const products = getProducts();
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-4">Lab Results</h1>
-      <input
-        type="text"
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        placeholder="Search by product or batch"
-        className="border px-3 py-2 w-full max-w-md"
-      />
-      <div className="mt-4 overflow-x-auto">
-        <table className="min-w-full text-sm">
-          <thead className="border-b">
+    <section className="section">
+      <h1>Lab Results</h1>
+      <p>Search your product and batch to view its Certificate of Analysis (COA).</p>
+      <div style={{ overflowX: "auto" }}>
+        <table role="table" style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
             <tr>
-              <th className="p-2 text-left">Product</th>
-              <th className="p-2 text-left">Batch ID</th>
-              <th className="p-2 text-left">Potency</th>
-              <th className="p-2 text-left">COA</th>
+              <th style={{ textAlign: "left", padding: "8px" }}>Product</th>
+              <th style={{ textAlign: "left", padding: "8px" }}>Batch ID</th>
+              <th style={{ textAlign: "left", padding: "8px" }}>Potency (mg)</th>
+              <th style={{ textAlign: "left", padding: "8px" }}>Tested</th>
+              <th style={{ textAlign: "left", padding: "8px" }}>Status</th>
+              <th style={{ textAlign: "left", padding: "8px" }}>COA</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((p) => (
-              <tr key={p.batch_id} className="border-b">
-                <td className="p-2">{p.title}</td>
-                <td className="p-2">{p.batch_id}</td>
-                <td className="p-2">{p.potency_mg}mg</td>
-                <td className="p-2">
+            {products.map((p: any) => (
+              <tr key={p.slug} style={{ borderTop: "1px solid #eee" }}>
+                <td style={{ padding: "8px" }}>
+                  <a href={`/product/${p.slug}`}>{p.title}</a>
+                </td>
+                <td style={{ padding: "8px" }}>{p.batch_id || "—"}</td>
+                <td style={{ padding: "8px" }}>{p.potency_mg || "—"}</td>
+                <td style={{ padding: "8px" }}>{p.tested_date || "—"}</td>
+                <td style={{ padding: "8px" }}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      padding: "2px 8px",
+                      borderRadius: 999,
+                      background:
+                        (p.test_status || "PENDING") === "PASS"
+                          ? "#0AAE4F"
+                          : (p.test_status || "PENDING") === "ATTENTION"
+                          ? "#E69E00"
+                          : "#8892A2",
+                      color: "#fff",
+                      fontSize: 12
+                    }}
+                  >
+                    {p.test_status || "PENDING"}
+                  </span>
+                </td>
+                <td style={{ padding: "8px" }}>
                   {p.coa_url ? (
-                    <a href={p.coa_url} className="underline" target="_blank" rel="noopener noreferrer">
+                    <a href={p.coa_url} target="_blank" rel="noreferrer">
                       PDF
                     </a>
                   ) : (
@@ -52,7 +67,7 @@ export default function LabResultsPage() {
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 }
 

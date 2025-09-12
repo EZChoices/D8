@@ -31,3 +31,8 @@ img { height: auto; }
 /* Skip link accessibility helper */
 .skip { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 .skip:focus { position: absolute; left: .5rem; top: .5rem; width: auto; height: auto; background: #000; color: #fff; padding: .5rem; border-radius: .25rem; z-index: 2000; }
+
+/* Optional sticky header style hook */
+header.site{position:sticky;top:0;z-index:1000;background:#fff;min-height:56px;border-bottom:1px solid #eee;padding-top:env(safe-area-inset-top)}
+@media (max-width:480px){ .brand{transform:scale(.92)} nav.primary{display:none} }
+.section{padding:var(--space-8) var(--space-4)}

@@ -1,14 +1,14 @@
 export default function DiscreetShipping() {
   return (
-    <div className="prose max-w-none">
+    <section className="section">
       <h1>Discreet Shipping</h1>
-      <p>Orders are shipped in plain packaging.</p>
       <ul>
-        <li>Fast, tracked delivery</li>
-        <li>No branding</li>
-        <li>Tamper-proof seals</li>
+        <li>Unbranded packaging; no product names on exterior.</li>
+        <li>Tracked delivery with email updates.</li>
+        <li>Neutral billing descriptor.</li>
+        <li>Typical delivery 2–5 business days by region.</li>
       </ul>
-    </div>
+    </section>
   );
 }
 

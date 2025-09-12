@@ -1,14 +1,14 @@
 export default function DirectSupply() {
   return (
-    <div className="prose max-w-none">
+    <section className="section">
       <h1>Direct Supply Chain</h1>
-      <p>We work directly with trusted growers and labs.</p>
-      <ul>
-        <li>No middlemen</li>
-        <li>Traceability seed-to-shelf</li>
-        <li>Better value for customers</li>
-      </ul>
-    </div>
+      <p>
+        We coordinate sourcing, extraction, formulation, filling, and testing to keep quality consistent from seed to
+        shelf.
+      </p>
+      <p>Manufacturing partners maintain GMP‑aligned practices and standardized QC checks.</p>
+      <p>Every production run has a batch ID mapped to its COA for full traceability.</p>
+    </section>
   );
 }
 
