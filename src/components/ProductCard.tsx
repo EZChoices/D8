@@ -1,6 +1,7 @@
 import ResponsiveImage from "@/components/ResponsiveImage";
 import Link from "next/link";
 import { Product, formatPrice } from "@/data/products";
+import QuickAdd from "@/components/QuickAdd";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
@@ -30,6 +31,12 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
       )}
       <p className="mt-1 font-bold">{formatPrice(product.price_cents)}</p>
+      <QuickAdd
+        slug={product.slug}
+        title={product.title}
+        price_cents={product.price_cents}
+        image={product.images?.[0]}
+      />
       <span className="mt-3 inline-block rounded bg-black px-4 py-2 text-sm text-white">View product</span>
     </Link>
   );

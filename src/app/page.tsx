@@ -1,9 +1,12 @@
 import ProductCard from "@/components/ProductCard";
 import TrustBar from "@/components/TrustBar";
 import EmailSignup from "@/components/EmailSignup";
-import { featuredSlugs, products, categories } from "@/data/products";
+import { products, categories } from "@/data/products";
 
-const featured = products.filter((p) => featuredSlugs.includes(p.slug as any));
+const primaryCats = ["Vape Carts", "Disposables", "Gummies"] as const;
+const featured = primaryCats
+  .map((c) => products.find((p) => p.category === c))
+  .filter(Boolean) as typeof products;
 
 export default function Home() {
   return (
@@ -43,7 +46,7 @@ export default function Home() {
 
       <section>
         <h2 className="text-2xl font-semibold mb-4">Featured Products</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {featured.map((product) => (
             <ProductCard key={product.slug} product={product} />
           ))}

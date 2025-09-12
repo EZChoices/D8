@@ -9,7 +9,6 @@ import MiniCartDrawer from "@/components/MiniCartDrawer";
 const NAV = [
   { href: "/shop", label: "Shop" },
   { href: "/quality", label: "Quality" },
-  { href: "/cart", label: "Cart" },
   { href: "/payment", label: "Shipping & Payment" }
 ];
 
@@ -39,11 +38,6 @@ export default function Header() {
               }
             >
               {item.label}
-              {item.href === "/cart" && (
-                <span className="ml-1 inline-flex min-w-[18px] items-center justify-center rounded-full bg-black px-1 text-[11px] text-white">
-                  {count}
-                </span>
-              )}
             </Link>
           ))}
           <button
