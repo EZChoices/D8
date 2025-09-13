@@ -13,6 +13,7 @@ export default function PdpStickyAddToCart({
   const line = useMemo(() => items.find((i) => i.slug === product.slug), [items, product.slug]);
   const qty = line?.quantity || 0;
   const [justAdded, setJustAdded] = useState(false);
+  const [subscribe, setSubscribe] = useState(false);
 
   useEffect(() => {
     if (justAdded) {
@@ -21,7 +22,9 @@ export default function PdpStickyAddToCart({
     }
   }, [justAdded]);
   const rawSubtotal = (product.price_cents * (qty || 1)) / 100;
-  const rate = qty >= 3 ? 0.15 : qty >= 2 ? 0.1 : 0;
+  const bundleRate = qty >= 3 ? 0.15 : qty >= 2 ? 0.1 : 0;
+  const subscribeRate = subscribe ? 0.1 : 0;
+  const rate = Math.max(bundleRate, subscribeRate);
   const discounted = rate > 0 ? rawSubtotal * (1 - rate) : rawSubtotal;
 
   return (
@@ -49,6 +52,12 @@ export default function PdpStickyAddToCart({
         )}
       </div>
       <div className="flex items-center gap-2">
+        {['Capsules','Gummies','Tinctures / Oils'].includes((product as any).category) && (
+          <label className="mr-2 flex items-center gap-1 text-xs">
+            <input type="checkbox" checked={subscribe} onChange={(e)=> setSubscribe(e.target.checked)} />
+            Subscribe & save 10%
+          </label>
+        )}
         <button
           onClick={() => setQty(product.slug, Math.max(1, qty - 1))}
           disabled={qty <= 1}
