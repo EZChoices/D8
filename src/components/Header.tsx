@@ -9,6 +9,7 @@ import MiniCartDrawer from "@/components/MiniCartDrawer";
 const NAV = [
   { href: "/shop", label: "Shop" },
   { href: "/quality", label: "Quality" },
+  { href: "/where-we-ship", label: "Where we ship" },
   { href: "/payment", label: "Shipping & Payment" }
 ];
 

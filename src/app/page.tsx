@@ -39,10 +39,6 @@ export default function Home() {
             </a>
           ))}
         </div>
-        <p className="mt-3 text-sm text-gray-600">
-          Vape Carts: Fast onset • 510‑compatible • Zero nicotine · Disposables: No setup • Rechargeable • Travel‑friendly ·
-          Gummies: 25 mg/gummy • Vegan options • Steady onset
-        </p>
       </section>
 
       <section>

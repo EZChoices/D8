@@ -3,10 +3,13 @@ import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { useCart } from "@/components/CartContext";
 import { beginCheckout, viewCart } from "@/lib/ga";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export default function MiniCartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { items, setQty, remove, total_cents } = useCart();
+  const count = useMemo(() => items.reduce((n, i) => n + i.quantity, 0), [items]);
+  const rate = count >= 3 ? 0.15 : count >= 2 ? 0.1 : 0;
+  const discounted_cents = Math.round(total_cents * (1 - rate));
   if (!open) return null;
   useEffect(() => {
     if (!open) return;
@@ -21,15 +24,13 @@ export default function MiniCartDrawer({ open, onClose }: { open: boolean; onClo
     <div className="fixed inset-0 z-[1100]" onClick={onClose}>
       <div className="absolute inset-0 bg-black/40" />
       <aside
-        className="absolute right-0 top-0 h-full w-[92vw] max-w-[420px] bg-white p-4 overflow-y-auto"
+        className="absolute right-0 top-0 h-full w-[92vw] max-w-[420px] overflow-y-auto bg-white p-4"
         onClick={(e) => e.stopPropagation()}
         aria-label="Mini cart"
       >
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-semibold">Your Cart</h2>
-          <button aria-label="Close" onClick={onClose}>
-            ✕
-          </button>
+          <button aria-label="Close" onClick={onClose}>✕</button>
         </div>
         {items.length === 0 ? (
           <p className="text-sm text-gray-600">
@@ -58,8 +59,20 @@ export default function MiniCartDrawer({ open, onClose }: { open: boolean; onClo
             ))}
             <div className="flex items-center justify-between pt-2">
               <div className="text-sm text-gray-700">Subtotal</div>
-              <div className="text-base font-semibold">${(total_cents / 100).toFixed(2)}</div>
+              <div className="text-base font-semibold">
+                {rate > 0 ? (
+                  <>
+                    <s className="mr-1">${(total_cents / 100).toFixed(2)}</s>
+                    <span>${(discounted_cents / 100).toFixed(2)}</span>
+                  </>
+                ) : (
+                  <>${(total_cents / 100).toFixed(2)}</>
+                )}
+              </div>
             </div>
+            {rate > 0 && (
+              <div className="text-right text-xs text-green-700">Bundle discount applied: {Math.round(rate * 100)}%</div>
+            )}
             <div className="flex gap-2">
               <Link href="/cart" className="flex-1 rounded border px-4 py-2 text-center">View cart</Link>
               <Link
@@ -76,3 +89,4 @@ export default function MiniCartDrawer({ open, onClose }: { open: boolean; onClo
     </div>
   );
 }
+
