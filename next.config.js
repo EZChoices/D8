@@ -17,13 +17,14 @@ const nextConfig = {
     ]
   },
   async headers() {
-    return [
+    const headers = [
       {
         source: "/(.*)",
         headers: [
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
           { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" }
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" }
         ]
       },
       {
@@ -33,6 +34,13 @@ const nextConfig = {
         ]
       }
     ];
+    if (process.env.VERCEL_ENV === 'preview') {
+      headers.push({
+        source: "/(.*)",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }]
+      });
+    }
+    return headers;
   }
 };
 
