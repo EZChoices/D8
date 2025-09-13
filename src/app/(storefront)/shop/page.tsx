@@ -25,7 +25,17 @@ export default async function Page({ searchParams }: { searchParams?: { cat?: st
     if (!inPotency(p)) return false;
     return true;
   });
-  const categories = Array.from(new Set(products.map((p: any) => p.category)));
+  const catOrder = [
+    'Vape Carts','Disposables','Gummies','Chocolates','Tinctures / Oils',
+    'Capsules','Hemp Flower','Concentrate Wax','Seltzer','Topicals',
+    'Accessories & Starter Kits','Samplers & Bundles'
+  ];
+  const categoriesRaw = Array.from(new Set(products.map((p: any) => p.category)));
+  const categories = categoriesRaw.sort((a: string, b: string) => {
+    const ia = catOrder.indexOf(a); const ib = catOrder.indexOf(b);
+    if (ia === -1 && ib === -1) return a.localeCompare(b);
+    if (ia === -1) return 1; if (ib === -1) return -1; return ia - ib;
+  });
   const intros: Record<string, string> = {
     "Vape Carts":
       "Pick carts for fast onset and precise control—ideal if you already have a 510 battery. Choose your strain and potency for a consistent, clean draw.",

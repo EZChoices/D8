@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useShipping } from "@/components/ShippingContext";
+import { addShippingInfo } from "@/lib/ga";
 import { RESTRICTED_STATES } from "@/lib/restrictions";
 
 const STATES = [
@@ -24,7 +25,13 @@ export default function StateSelector({ showGrid = true }: { showGrid?: boolean 
             <option key={s} value={s}>{s}</option>
           ))}
         </select>
-        <button className="rounded bg-black px-3 py-1 text-white" onClick={() => setState(selected)}>
+        <button
+          className="rounded bg-black px-3 py-1 text-white"
+          onClick={() => {
+            setState(selected);
+            if (selected) addShippingInfo({ state: selected, country: "US", tier: "standard" });
+          }}
+        >
           Save
         </button>
         {state && <span className="text-sm text-gray-600">Current: {state} {restricted.has(state) ? '(Restricted)' : ''}</span>}
@@ -41,4 +48,3 @@ export default function StateSelector({ showGrid = true }: { showGrid?: boolean 
     </div>
   );
 }
-

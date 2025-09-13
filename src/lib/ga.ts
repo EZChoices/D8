@@ -62,3 +62,11 @@ export function viewCart(items: { id: string; name: string; category?: string; p
     }))
   });
 }
+
+export function addShippingInfo(params: { state?: string; country?: string; tier?: string }) {
+  gtag("event", "add_shipping_info", {
+    shipping_tier: params.tier || "standard",
+    address_state: params.state,
+    address_country: params.country || "US"
+  });
+}
