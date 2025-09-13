@@ -82,6 +82,12 @@ export default async function Page({ searchParams }: { searchParams?: { cat?: st
           </div>
         </aside>
         <main>
+          <nav aria-label="breadcrumbs" className="text-sm text-gray-600">
+            <a href="/" className="underline">Home</a> <span aria-hidden>›</span> <a href="/shop" className="underline">Shop</a>
+            {cat ? (
+              <> <span aria-hidden>›</span> <span aria-current="page">{cat}</span></>
+            ) : null}
+          </nav>
           {cat ? (
             <p><strong>{cat}:</strong> {intros[cat] || 'Browse products in this category.'}</p>
           ) : null}

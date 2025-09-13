@@ -99,6 +99,19 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <p>
             <strong>Category:</strong> {product.category}
           </p>
+          <p>
+            <strong>Value:</strong> {(product.potency_mg / (product.price_cents / 100)).toFixed(1)} mg/$
+          </p>
+          {product.title.toLowerCase().includes('1ml') && (
+            <p>
+              <strong>Concentration:</strong> {(product.potency_mg).toFixed(0)} mg/ml
+            </p>
+          )}
+          {product as any && (product as any).tested_date && (
+            <p>
+              <strong>Last tested:</strong> {(product as any).tested_date}
+            </p>
+          )}
           {product.size_label && (
             <p>
               <strong>Size:</strong> {product.size_label}
@@ -110,8 +123,10 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <p>
             <strong>Batch ID:</strong> {product.batch_id}
           </p>
-          {product.coa_url && (
-            <p><COAModal url={product.coa_url} /></p>
+          {product.batch_id && (
+            <p>
+              <COAModal url={`/coa/${product.slug}/${product.batch_id}.pdf`} />
+            </p>
           )}
         </div>
         <p className="mt-4 text-2xl font-bold">{formatPrice(product.price_cents)}</p>
@@ -128,6 +143,12 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
         <PdpAvailability product={product} />
       </div>
       <JsonLd json={productJsonLd(product)} />
+      <div className="md:col-span-2 text-xs text-gray-600">
+        <p>
+          Disclaimers: For adults 21+ only. Do not drive or operate machinery while impaired. Keep out of reach of
+          children and pets. Not evaluated by the FDA; not intended to diagnose, treat, cure, or prevent any disease.
+        </p>
+      </div>
       <div className="md:col-span-2">
         <h2 className="mt-8 text-xl font-semibold">Customers also bought</h2>
         <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
