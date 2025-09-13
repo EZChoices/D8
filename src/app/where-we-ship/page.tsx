@@ -1,6 +1,7 @@
 "use client";
 import StateSelector from "@/components/StateSelector";
 import USRegionsMap from "@/components/USRegionsMap";
+import USSVGMap from "@/components/USSVGMap";
 import InternationalList from "@/components/InternationalList";
 
 export default function Page() {
@@ -12,8 +13,14 @@ export default function Page() {
         <h2>United States</h2>
         <p className="text-sm text-gray-700">Select your state via the map or dropdown. Restricted states appear in red.</p>
         <div className="mt-3 grid gap-4 md:grid-cols-2">
-          <USRegionsMap />
-          <StateSelector showGrid={true} />
+          {/* Inline SVG map (loads /public/us-states.svg when available) */}
+          <USSVGMap />
+          <div>
+            <StateSelector showGrid={true} />
+            <div className="mt-4">
+              <USRegionsMap />
+            </div>
+          </div>
         </div>
       </div>
       <div className="mt-8">

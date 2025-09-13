@@ -1,6 +1,11 @@
+"use client";
 import { getProduct, formatPrice } from "@/data/products";
+import { useShipping } from "@/components/ShippingContext";
+import { RESTRICTED_STATES } from "@/lib/restrictions";
 
 export default function CheckoutPage({ searchParams }: { searchParams: { sku?: string; qty?: string } }) {
+  const { state } = useShipping();
+  const isRestricted = state ? RESTRICTED_STATES.includes(state) : false;
   const sku = searchParams?.sku;
   const qtyNum = Math.max(1, parseInt(searchParams?.qty || "1", 10) || 1);
   const product = sku ? getProduct(sku) : undefined;
@@ -46,6 +51,23 @@ export default function CheckoutPage({ searchParams }: { searchParams: { sku?: s
           </div>
         </div>
         <p className="text-xs text-gray-500 mt-2">Your order will be confirmed via email once payment is received.</p>
+      </section>
+      <section className="rounded border p-4">
+        <h2 className="text-lg font-semibold mb-2">Legal Notice</h2>
+        <p className="text-sm text-gray-700">
+          We ship discreetly. The receiver is responsible for complying with local laws in their jurisdiction. Orders
+          to restricted or high‑risk regions are shipped at the customer's risk. Seized or refused shipments cannot be
+          refunded.
+        </p>
+        {state && (
+          <p className="mt-2 text-sm">
+            Destination state: <strong>{state}</strong> {isRestricted ? (
+              <span className="text-red-700">(Restricted)</span>
+            ) : (
+              <span className="text-green-700">(OK)</span>
+            )}
+          </p>
+        )}
       </section>
 
       <button className="bg-black text-white px-4 py-2">I've sent the payment</button>
