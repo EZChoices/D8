@@ -1,3 +1,6 @@
+"use client";
+import StateSelector from "@/components/StateSelector";
+
 export default function Page() {
   return (
     <section className="section">
@@ -24,8 +27,11 @@ export default function Page() {
       </p>
       <h2>Where We Ship</h2>
       <p>
-        Some regions are restricted by local rules. Review <a href="/where-we-ship">Where we ship</a> before ordering.
+        Some regions are restricted by local rules. Review <a href="/where-we-ship">Where we ship</a> before ordering, or set your state below.
       </p>
+      <div className="mt-2">
+        <StateSelector showGrid={false} />
+      </div>
     </section>
   );
 }

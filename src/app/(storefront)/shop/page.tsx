@@ -46,48 +46,41 @@ export default async function Page({ searchParams }: { searchParams?: { cat?: st
         <h1>Shop</h1>
         <CartSummaryChip />
       </div>
-      {/* Filters removed for a sleeker MVP; category chips retained */}
-      <div className="mb-2 flex gap-2 overflow-x-auto pb-2">
-        <a href="/shop" className={`rounded border px-3 py-1 ${!cat ? "bg-black text-white" : ""}`}>All</a>
-        {categories.map((c: string) => (
-          <a
-            key={c}
-            href={`/shop?cat=${encodeURIComponent(c)}`}
-            className={`rounded border px-3 py-1 ${cat === c ? "bg-black text-white" : ""}`}
-          >
-            {c}
-          </a>
-        ))}
-      </div>
-      <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
-        <span>Effect:</span>
-        {['Sleep','Relax','Focus','Social'].map((e) => (
-          <a key={e} href={`?${new URLSearchParams({ ...(cat?{cat}:{ }), effect: e, potency: potency || '' } as any).toString()}`} className={`rounded border px-2 py-0.5 ${effect===e? 'bg-black text-white':''}`}>{e}</a>
-        ))}
-        <a href={`?${new URLSearchParams({ ...(cat?{cat}:{ }), potency: potency || '' } as any).toString()}`} className="rounded px-2 py-0.5 text-gray-600">Clear</a>
-        <span className="ml-3">Potency:</span>
-        {[
-          {k:'micro',label:'Micro 2–10 mg'},
-          {k:'standard',label:'Standard 20–30 mg'},
-          {k:'strong',label:'Strong 40–60+ mg'}
-        ].map(o => (
-          <a key={o.k} href={`?${new URLSearchParams({ ...(cat?{cat}:{ }), effect: effect || '', potency: o.k } as any).toString()}`} className={`rounded border px-2 py-0.5 ${potency===o.k? 'bg-black text-white':''}`}>{o.label}</a>
-        ))}
-        <a href={`?${new URLSearchParams({ ...(cat?{cat}:{ }), effect: effect || '' } as any).toString()}`} className="rounded px-2 py-0.5 text-gray-600">Clear</a>
-      </div>
-      {cat ? (
-        <p>
-          <strong>{cat}:</strong> {intros[cat] || "Browse products in this category."}
-        </p>
-      ) : (
-        <p>
-          Browse all products. Use filters (coming soon) to narrow by form factor, potency, and price.
-        </p>
-      )}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((p: any) => (
-          <ProductCard key={p.slug} product={p} />
-        ))}
+      <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-[220px,1fr]">
+        <aside className="md:sticky md:top-[64px]">
+          <nav aria-label="Categories" className="text-sm">
+            <a href="/shop" className={`block rounded px-2 py-1 ${!cat ? 'bg-black text-white' : ''}`}>All</a>
+            {categories.map((c: string) => (
+              <a key={c} href={`/shop?cat=${encodeURIComponent(c)}`} className={`block rounded px-2 py-1 ${cat===c ? 'bg-black text-white' : ''}`}>{c}</a>
+            ))}
+          </nav>
+          <div className="mt-4 text-sm">
+            <div className="font-semibold">Effect</div>
+            <div className="mt-1 grid grid-cols-2 gap-1">
+              {['Sleep','Relax','Focus','Social'].map((e) => (
+                <a key={e} href={`?${new URLSearchParams({ ...(cat?{cat}:{ }), effect: e, potency: potency || '' } as any).toString()}`} className={`rounded border px-2 py-0.5 ${effect===e? 'bg-black text-white':''}`}>{e}</a>
+              ))}
+              <a href={`?${new URLSearchParams({ ...(cat?{cat}:{ }), potency: potency || '' } as any).toString()}`} className="rounded px-2 py-0.5 text-gray-600">Clear</a>
+            </div>
+            <div className="mt-3 font-semibold">Potency</div>
+            <div className="mt-1 grid grid-cols-1 gap-1">
+              {[{k:'micro',label:'Micro 2–10 mg'},{k:'standard',label:'Standard 20–30 mg'},{k:'strong',label:'Strong 40–60+ mg'}].map(o => (
+                <a key={o.k} href={`?${new URLSearchParams({ ...(cat?{cat}:{ }), effect: effect || '', potency: o.k } as any).toString()}`} className={`rounded border px-2 py-0.5 ${potency===o.k? 'bg-black text-white':''}`}>{o.label}</a>
+              ))}
+              <a href={`?${new URLSearchParams({ ...(cat?{cat}:{ }), effect: effect || '' } as any).toString()}`} className="rounded px-2 py-0.5 text-gray-600">Clear</a>
+            </div>
+          </div>
+        </aside>
+        <main>
+          {cat ? (
+            <p><strong>{cat}:</strong> {intros[cat] || 'Browse products in this category.'}</p>
+          ) : null}
+          <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((p: any) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        </main>
       </div>
       <CartFloatButton />
       <CartStickyBar />
