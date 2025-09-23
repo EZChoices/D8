@@ -4,7 +4,7 @@ import EmailSignup from "@/components/EmailSignup";
 import { products, categories } from "@/data/products";
 import CartFloatButton from "@/components/CartFloatButton";
 
-const primaryCats = ["Vape Carts", "Disposables", "Gummies"] as const;
+const primaryCats = ["Gummies", "Chocolates", "Tinctures / Oils"] as const;
 const featured = primaryCats
   .map((c) => products.find((p) => p.category === c))
   .filter(Boolean) as typeof products;

@@ -9,6 +9,7 @@ export default function Footer() {
         </div>
         <nav className="text-sm flex flex-wrap gap-3 justify-start md:justify-end">
           <Link href="/quality">Quality</Link>
+          <Link href="/wholesale">Wholesale</Link>
           <Link href="/payment">Shipping & Payment</Link>
           <Link href="/where-we-ship">Where we ship</Link>
           <Link href="/privacy">Privacy</Link>
