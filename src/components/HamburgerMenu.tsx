@@ -50,6 +50,11 @@ export default function HamburgerMenu({
               </Link>
             </li>
             <li>
+              <Link href="/wholesale" onClick={onClose}>
+                Wholesale
+              </Link>
+            </li>
+            <li>
               <Link href="/quality" onClick={onClose}>
                 Quality
               </Link>

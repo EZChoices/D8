@@ -26,9 +26,8 @@ export default async function Page({ searchParams }: { searchParams?: { cat?: st
     return true;
   });
   const catOrder = [
-    'Vape Carts','Disposables','Gummies','Chocolates','Tinctures / Oils',
-    'Capsules','Hemp Flower','Concentrate Wax','Seltzer','Topicals',
-    'Accessories & Starter Kits','Samplers & Bundles'
+    'Gummies','Chocolates','Tinctures / Oils','Capsules','Hemp Flower',
+    'Concentrate Wax','Seltzer','Topicals','Accessories & Starter Kits','Samplers & Bundles'
   ];
   const categoriesRaw = Array.from(new Set(products.map((p: any) => p.category)));
   const categories = categoriesRaw.sort((a: string, b: string) => {
@@ -37,10 +36,6 @@ export default async function Page({ searchParams }: { searchParams?: { cat?: st
     if (ia === -1) return 1; if (ib === -1) return -1; return ia - ib;
   });
   const intros: Record<string, string> = {
-    "Vape Carts":
-      "Pick carts for fast onset and precise control—ideal if you already have a 510 battery. Choose your strain and potency for a consistent, clean draw.",
-    Disposables:
-      "No battery or maintenance needed—just unbox and draw. Perfect for travel or when you want setup‑free simplicity.",
     Gummies:
       "Great for a smooth, steady experience. Start with 1 gummy (25 mg), wait at least 60–90 minutes before considering more.",
     Chocolates:

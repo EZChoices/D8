@@ -15,7 +15,11 @@ export type Product = {
 
 import productsJson from "../../content/products.json" assert { type: "json" };
 
-export const products = productsJson as Product[];
+const consumerRestrictedCategories = new Set(["Vape Carts", "Disposables"]);
+
+const allProducts = productsJson as Product[];
+
+export const products = allProducts.filter((product) => !consumerRestrictedCategories.has(product.category));
 
 export const categories = Array.from(new Set(products.map((p) => p.category)));
 
