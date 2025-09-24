@@ -1,12 +1,12 @@
 export const metadata = {
-  title: "Wholesale Shipping & Returns",
-  description: "Terms for wholesale logistics, lead times, and claims."
+  title: "Wholesale THCA Shipping & Returns Terms",
+  description: "Terms for wholesale THCA logistics, lead times, and claims."
 };
 
 export default function WholesaleTerms() {
   return (
     <section className="section prose max-w-none">
-      <h1>Wholesale Shipping &amp; Returns</h1>
+      <h1 className="text-4xl font-bold">Wholesale THCA Shipping &amp; Returns</h1>
       <p className="lede">Terms applicable to palletized and case-pack wholesale orders.</p>
 
       <h2>Order Acceptance</h2>

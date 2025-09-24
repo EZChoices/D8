@@ -1,11 +1,19 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Wholesale THCA Shipping & Returns",
+  description: "Understand staging timelines, adult-signature requirements, and limited return rights for wholesale THCA orders."
+};
+
 export default function ShippingReturns() {
   return (
     <div className="prose max-w-none">
-      <h1>Shipping &amp; Returns</h1>
-      <p className="lede">We ship discreetly and quickly. Returns are limited due to product nature but we’ll make it right if anything arrives damaged.</p>
+      <h1 className="text-4xl font-bold">Wholesale THCA Shipping &amp; Returns</h1>
+      <p className="lede">Freight is staged after compliance review. Returns remain limited because of the regulated nature of THCA products.</p>
       <hr className="divider" />
       <p>
-        Orders ship within 2 business days. Delivery time varies by region. Due to product nature, returns are limited to defective items.
+        Orders ship within 2 business days for parcels and 2–4 business days for pallets once payment clears. Returns are limited
+        to documented defects or fulfillment errors—opened consumables and private label runs are not eligible.
       </p>
       <h2>Return Window & Eligibility</h2>
       <ul>

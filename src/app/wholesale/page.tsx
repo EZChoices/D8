@@ -9,8 +9,9 @@ import {
 import WholesaleAccessCallout from "@/components/WholesaleAccessCallout";
 
 export const metadata: Metadata = {
-  title: "Wholesale Catalog",
-  description: "Current wholesale menu with WSP, MSRP, and quantity break pricing.",
+  title: "Wholesale THCA Catalog & Bulk Pricing",
+  description:
+    "Current THCA wholesale menu with WSP, MSRP, quantity breaks, and gating for restricted inhalable SKUs.",
 };
 
 type ProductRow = (typeof wholesaleProducts)[number];
@@ -59,10 +60,11 @@ export default function WholesalePage() {
     <section className="section space-y-10">
       <header className="space-y-3">
         <p className="text-xs uppercase tracking-wide text-gray-500">For licensed businesses · 21+</p>
-        <h1 className="text-3xl font-bold">Wholesale Catalog</h1>
+        <h1 className="text-4xl font-bold">Wholesale THCA Catalog</h1>
         <p className="max-w-3xl text-gray-700">
-          Verified batches with attached COAs available on request. Pricing shown is wholesale (WSP) and MSRP for quick
-          reference; services require a custom quote. Vapes and carts remain restricted to business accounts per compliance guidance.
+          Verified THCA flower, concentrates, and distillates ship to licensed buyers with batch-level COAs. Pricing shown is
+          wholesale (WSP) and MSRP for quick reference; services require a custom quote. Vapes and carts remain restricted to
+          business accounts per compliance guidance.
         </p>
         <div className="flex flex-wrap gap-3 text-sm">
           <Link href="/contact" className="rounded border px-4 py-2">Request line sheet</Link>

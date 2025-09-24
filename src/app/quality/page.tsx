@@ -4,8 +4,9 @@ import path from "node:path";
 import ResponsiveImage from "@/components/ResponsiveImage";
 
 export const metadata: Metadata = {
-  title: "Quality & COA Library",
-  description: "Access batch-level COAs, testing status, and lab partners for all wholesale SKUs."
+  title: "THCA Quality & COA Library",
+  description:
+    "Access batch-level COAs, testing status, and lab partners for all wholesale THCA SKUs."
 };
 
 function getProducts() {
@@ -26,8 +27,8 @@ export default function Page({ searchParams }: { searchParams?: { q?: string; al
   if (!showAll) rows = rows.slice(0, 8);
   return (
     <section className="section">
-      <h1>Quality & Lab Results</h1>
-      <p className="lede">Transparent testing and a controlled supply chain so you know exactly what you’re getting—batch by batch.</p>
+      <h1 className="text-4xl font-bold">THCA Quality &amp; Lab Results</h1>
+      <p className="lede">Transparent testing and a controlled supply chain so you know exactly what you’re getting—batch by batch for THCA flower, concentrates, and distillates.</p>
       <div style={{ display: "grid", gap: "8px", gridTemplateColumns: "2fr 1fr 1fr", marginBottom: "1rem" }}>
         {(products.slice(0, 3) as any[]).map((p: any, idx: number) => (
           <div key={p.slug} style={{ position: "relative", width: "100%", aspectRatio: idx === 0 ? "16/9" : "1/1" }}>

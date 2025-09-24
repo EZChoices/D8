@@ -1,7 +1,7 @@
 [
   {
     "slug": "d8-flower-3-5g-blue-dream",
-    "title": "Delta-8 Flower — Blue Dream 3.5g",
+    "title": "THCA Flower — Blue Dream 3.5g",
     "category": "Hemp Flower",
     "price_cents": 2499,
     "potency_mg": 350,
@@ -23,7 +23,7 @@
   },
   {
     "slug": "d8-pre-rolls-2-pack-og",
-    "title": "Delta-8 Pre-rolls — OG Kush 2-pack",
+    "title": "THCA Pre-rolls — OG Kush 2-pack",
     "category": "Hemp Flower",
     "price_cents": 1599,
     "potency_mg": 200,
@@ -45,7 +45,7 @@
   },
   {
     "slug": "d8-seltzer-4pack-5mg",
-    "title": "Delta-8 Seltzer — 5mg 4-pack",
+    "title": "THCA Seltzer — 5mg 4-pack",
     "category": "Seltzer",
     "price_cents": 1999,
     "potency_mg": 20,
@@ -67,7 +67,7 @@
   },
   {
     "slug": "d8-syrup-500mg-mocktail",
-    "title": "Delta-8 Mocktail Syrup — 500mg",
+    "title": "THCA Mocktail Syrup — 500mg",
     "category": "Drinkables & Syrups",
     "price_cents": 3499,
     "potency_mg": 500,
@@ -89,7 +89,7 @@
   },
   {
     "slug": "d8-concentrate-wax-1g",
-    "title": "Delta-8 Concentrate — Wax 1g",
+    "title": "THCA Concentrate — Wax 1g",
     "category": "Concentrate Wax",
     "price_cents": 2999,
     "potency_mg": 900,
@@ -111,7 +111,7 @@
   },
   {
     "slug": "d8-capsules-25mg-30ct",
-    "title": "Delta-8 Capsules — 25mg · 30ct",
+    "title": "THCA Capsules — 25mg · 30ct",
     "category": "Capsules",
     "price_cents": 3999,
     "potency_mg": 25,
@@ -174,7 +174,7 @@
   },
   {
     "slug": "delta8-vape-cart-1ml",
-    "title": "Delta-8 Vape Cartridge — 1ml",
+    "title": "THCA Vape Cartridge — 1ml",
     "category": "Vape Carts",
     "price_cents": 2999,
     "potency_mg": 900,
@@ -194,7 +194,7 @@
   },
   {
     "slug": "delta8-vape-cart-1ml-og-kush",
-    "title": "Delta-8 Vape Cartridge — 1ml OG Kush",
+    "title": "THCA Vape Cartridge — 1ml OG Kush",
     "category": "Vape Carts",
     "price_cents": 2999,
     "potency_mg": 900,
@@ -214,7 +214,7 @@
   },
   {
     "slug": "delta8-disposable-2ml-strawberry",
-    "title": "Delta-8 Disposable Vape — 2ml Strawberry",
+    "title": "THCA Disposable Vape — 2ml Strawberry",
     "category": "Disposables",
     "price_cents": 3999,
     "potency_mg": 1800,
@@ -234,7 +234,7 @@
   },
   {
     "slug": "delta8-disposable-2ml-blueberry",
-    "title": "Delta-8 Disposable Vape — 2ml Blueberry",
+    "title": "THCA Disposable Vape — 2ml Blueberry",
     "category": "Disposables",
     "price_cents": 3999,
     "potency_mg": 1800,
@@ -254,7 +254,7 @@
   },
   {
     "slug": "delta8-gummies-20ct",
-    "title": "Delta-8 Gummies — 20ct, 25mg each",
+    "title": "THCA Gummies — 20ct, 25mg each",
     "category": "Gummies",
     "price_cents": 3499,
     "potency_mg": 500,
@@ -274,7 +274,7 @@
   },
   {
     "slug": "delta8-gummies-40ct",
-    "title": "Delta-8 Gummies — 40ct, 25mg each",
+    "title": "THCA Gummies — 40ct, 25mg each",
     "category": "Gummies",
     "price_cents": 5999,
     "potency_mg": 1000,
@@ -294,7 +294,7 @@
   },
   {
     "slug": "delta8-chocolate-100mg",
-    "title": "Delta-8 Chocolate Bar — 100mg",
+    "title": "THCA Chocolate Bar — 100mg",
     "category": "Chocolates",
     "price_cents": 1999,
     "potency_mg": 100,
@@ -314,7 +314,7 @@
   },
   {
     "slug": "delta8-chocolate-200mg",
-    "title": "Delta-8 Chocolate Bar — 200mg Dark",
+    "title": "THCA Chocolate Bar — 200mg Dark",
     "category": "Chocolates",
     "price_cents": 2499,
     "potency_mg": 200,
@@ -334,7 +334,7 @@
   },
   {
     "slug": "delta8-tincture-1000mg",
-    "title": "Delta-8 Tincture — 1000mg",
+    "title": "THCA Tincture — 1000mg",
     "category": "Tinctures / Oils",
     "price_cents": 4999,
     "potency_mg": 1000,
@@ -354,7 +354,7 @@
   },
   {
     "slug": "delta8-tincture-2000mg",
-    "title": "Delta-8 Tincture — 2000mg Mint",
+    "title": "THCA Tincture — 2000mg Mint",
     "category": "Tinctures / Oils",
     "price_cents": 7999,
     "potency_mg": 2000,
@@ -374,7 +374,7 @@
   },
   {
     "slug": "delta8-topical-balm",
-    "title": "Delta-8 Topical Balm — 500mg",
+    "title": "THCA Topical Balm — 500mg",
     "category": "Topicals",
     "price_cents": 2999,
     "potency_mg": 500,
@@ -394,7 +394,7 @@
   },
   {
     "slug": "delta8-topical-lotion",
-    "title": "Delta-8 Topical Lotion — 1000mg",
+    "title": "THCA Topical Lotion — 1000mg",
     "category": "Topicals",
     "price_cents": 4999,
     "potency_mg": 1000,
