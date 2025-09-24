@@ -1,19 +1,16 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { products, getProduct, formatPrice } from "@/data/products";
+import { products, getProduct } from "@/data/products";
 import COAModal from "@/components/COAModal";
-import StickyCTA from "@/components/StickyCTA";
 import BreadcrumbLd from "@/components/BreadcrumbLd";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import JsonLd from "@/components/JsonLd";
 import { productJsonLd } from "@/lib/productJsonLd";
-import PdpStickyAddToCart from "@/components/PdpStickyAddToCart";
 import ProductCard from "@/components/ProductCard";
-import { viewItem } from "@/lib/ga";
-import { useEffect } from "react";
 import PdpAvailability from "@/components/PdpAvailability";
+import ProductPriceGate from "@/components/ProductPriceGate";
+import ProductViewTracker from "@/components/ProductViewTracker";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -31,16 +28,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default function ProductPage({ params }: { params: { slug: string } }) {
   const product = getProduct(params.slug);
   if (!product) return notFound();
-  const sku = product.slug.toUpperCase();
   const base = "https://d8-orpin.vercel.app";
-
-  // fire view_item on client after hydration
-  if (typeof window !== "undefined") {
-    // Minimal guard to avoid SSR warnings
-    setTimeout(() => {
-      viewItem({ id: product.slug, name: product.title, category: product.category, price: product.price_cents / 100 });
-    }, 0);
-  }
 
   // Choose 3 complementary items from other categories
   const complementary = products
@@ -69,6 +57,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           className="object-contain"
         />
       </div>
+      <ProductViewTracker product={product} />
       <div>
         <h1 className="text-3xl font-bold">{product.title}</h1>
         {product.badges && (
@@ -118,35 +107,43 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             </p>
           )}
           <p>
-            <strong>SKU:</strong> {sku}
+            <strong>SKU:</strong> {product.slug.toUpperCase()}
           </p>
           <p>
             <strong>Batch ID:</strong> {product.batch_id}
           </p>
-          {product.batch_id && (
+          {product.coa_url && (
             <p>
-              <COAModal url={`/coa/${product.slug}/${product.batch_id}.pdf`} />
+              <COAModal url={product.coa_url} />
             </p>
           )}
+          {product.case_pack && (
+            <p>
+              <strong>Case pack:</strong> {product.case_pack}
+            </p>
+          )}
+          {product.moq_units ? (
+            <p>
+              <strong>MOQ:</strong> {product.moq_units} units
+            </p>
+          ) : null}
         </div>
-        <p className="mt-4 text-2xl font-bold">{formatPrice(product.price_cents)}</p>
-        <p className="text-sm text-green-700">Buy 2 save 10% · 3+ save 15%</p>
+        <ProductPriceGate product={product as any} />
         <div className="mt-6 flex gap-3 flex-wrap">
           <Link href={`/checkout?sku=${product.slug}`} className="rounded bg-black px-5 py-3 text-white">
-            Checkout Now
+            Generate wholesale quote
           </Link>
           <Link href="/shop" className="rounded border px-5 py-3">
-            Back to Shop
+            Back to catalog
           </Link>
-          {product.coa_url && <COAModal url={product.coa_url} />}
         </div>
         <PdpAvailability product={product} />
       </div>
       <JsonLd json={productJsonLd(product)} />
       <div className="md:col-span-2 text-xs text-gray-600">
         <p>
-          Disclaimers: For adults 21+ only. Do not drive or operate machinery while impaired. Keep out of reach of
-          children and pets. Not evaluated by the FDA; not intended to diagnose, treat, cure, or prevent any disease.
+          Compliance: Shipments require age-gated delivery and a valid reseller or processing license where applicable.
+          Products remain hemp-derived with Δ9 THC &lt;0.3% on a dry-weight basis. Maintain records for state inspections.
         </p>
       </div>
       <div className="md:col-span-2">

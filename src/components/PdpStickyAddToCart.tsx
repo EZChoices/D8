@@ -6,69 +6,62 @@ import { useCart } from "@/components/CartContext";
 export default function PdpStickyAddToCart({
   product
 }: {
-  product: { slug: string; title: string; price_cents: number; images?: string[] };
+  product: {
+    slug: string;
+    title: string;
+    price_cents: number;
+    images?: string[];
+    category?: string;
+    case_pack?: string | null;
+    moq_units?: number | null;
+  };
 }) {
   const img = product.images?.[0];
   const { items, setQty, add } = useCart();
   const line = useMemo(() => items.find((i) => i.slug === product.slug), [items, product.slug]);
   const qty = line?.quantity || 0;
   const [justAdded, setJustAdded] = useState(false);
-  const [subscribe, setSubscribe] = useState(false);
 
   useEffect(() => {
     if (justAdded) {
-      const t = setTimeout(() => setJustAdded(false), 1200);
-      return () => clearTimeout(t);
+      const timeout = setTimeout(() => setJustAdded(false), 1200);
+      return () => clearTimeout(timeout);
     }
   }, [justAdded]);
-  const rawSubtotal = (product.price_cents * (qty || 1)) / 100;
-  const bundleRate = qty >= 3 ? 0.15 : qty >= 2 ? 0.1 : 0;
-  const subscribeRate = subscribe ? 0.1 : 0;
-  const rate = Math.max(bundleRate, subscribeRate);
-  const discounted = rate > 0 ? rawSubtotal * (1 - rate) : rawSubtotal;
+
+  const displayedQty = qty > 0 ? qty : product.moq_units || 1;
+  const subtotal = ((product.price_cents * displayedQty) / 100).toFixed(2);
 
   return (
     <div
       role="region"
       aria-label="Purchase actions"
-      className="sticky bottom-0 z-[1000] flex items-center justify-between border-t bg-white px-4 py-3"
+      className="sticky bottom-0 z-[1000] flex flex-wrap items-center justify-between gap-3 border-t bg-white px-4 py-3"
     >
-      <div>
-        <strong className="block">{product.title}</strong>
-        <span>${(product.price_cents / 100).toFixed(2)}</span>
-        {qty > 0 && (
-          <span className="ml-3 text-sm text-gray-600">
-            Qty: {qty} · Subtotal: {rate > 0 ? (
-              <>
-                <s>${rawSubtotal.toFixed(2)}</s> → <strong>${discounted.toFixed(2)}</strong>
-              </>
-            ) : (
-              <>${rawSubtotal.toFixed(2)}</>
-            )}
-          </span>
-        )}
-        {qty >= 2 && (
-          <div className="text-xs text-green-700">Bundle savings applied: {qty >= 3 ? 15 : 10}%</div>
-        )}
+      <div className="min-w-[200px]">
+        <strong className="block text-sm sm:text-base">{product.title}</strong>
+        <div className="text-sm text-gray-700">
+          {product.case_pack ? <span>Case pack: {product.case_pack}</span> : null}
+          {product.moq_units ? <span className="ml-2">MOQ: {product.moq_units}</span> : null}
+        </div>
+        <div className="text-sm text-gray-600">Subtotal (preview): ${subtotal}</div>
       </div>
-      <div className="flex items-center gap-2">
-        {['Capsules','Gummies','Tinctures / Oils'].includes((product as any).category) && (
-          <label className="mr-2 flex items-center gap-1 text-xs">
-            <input type="checkbox" checked={subscribe} onChange={(e)=> setSubscribe(e.target.checked)} />
-            Subscribe & save 10%
-          </label>
-        )}
+      <div className="flex items-center gap-2 text-sm">
         <button
-          onClick={() => setQty(product.slug, Math.max(1, qty - 1))}
-          disabled={qty <= 1}
-          className="rounded border px-2 py-1 disabled:opacity-50"
+          onClick={() => setQty(product.slug, Math.max(1, displayedQty - 1))}
+          disabled={displayedQty <= 1}
+          className="rounded border px-2 py-1 disabled:cursor-not-allowed disabled:opacity-50"
           aria-label="Decrease quantity"
         >
           −
         </button>
-        <span className="min-w-[2ch] text-center">{qty > 0 ? qty : 1}</span>
+        <span className="min-w-[2ch] text-center">{displayedQty}</span>
         <button
-          onClick={() => (qty > 0 ? setQty(product.slug, qty + 1) : add({ slug: product.slug, title: product.title, price_cents: product.price_cents, image: img }))}
+          onClick={() =>
+            displayedQty > 0
+              ? setQty(product.slug, displayedQty + 1)
+              : add({ slug: product.slug, title: product.title, price_cents: product.price_cents, image: img })
+          }
           className="rounded border px-2 py-1"
           aria-label="Increase quantity"
         >
@@ -79,6 +72,8 @@ export default function PdpStickyAddToCart({
           title={product.title}
           price_cents={product.price_cents}
           image={img}
+          category={product.category}
+          moq={product.moq_units || null}
           onAdded={() => setJustAdded(true)}
         >
           {justAdded ? "Added" : "Add to Cart"}

@@ -4,11 +4,14 @@ import ResponsiveImage from "@/components/ResponsiveImage";
 import { Product, formatPrice } from "@/data/products";
 import QuickAdd from "@/components/QuickAdd";
 import { useShipping } from "@/components/ShippingContext";
-import { RESTRICTED_STATES } from "@/lib/restrictions";
+import { useWholesale } from "@/components/WholesaleContext";
+import { evaluatePurchaseGate } from "@/lib/purchasePolicy";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { state } = useShipping();
-  const restricted = state ? RESTRICTED_STATES.includes(state) : false;
+  const { status } = useWholesale();
+  const gate = evaluatePurchaseGate(product, { state, wholesaleStatus: status });
+  const showPrice = !gate.requiresWholesale || status === "approved";
   return (
     <div className="rounded border p-4 transition hover:shadow-md">
       <Link href={`/product/${product.slug}`} className="block">
@@ -44,27 +47,48 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
         )}
       </Link>
-      <p className="mt-1 font-bold">{formatPrice(product.price_cents)}</p>
+      <div className="mt-1 text-sm">
+        {showPrice ? (
+          <span className="font-bold text-lg">{formatPrice(product.price_cents)}</span>
+        ) : (
+          <span className="font-semibold text-gray-600">Wholesale pricing locked</span>
+        )}
+      </div>
       {product.size_label && (
         <p className="text-xs text-gray-600">Size: {product.size_label}</p>
       )}
-      <p className="text-xs text-green-700">Buy 2 save 10% · 3+ save 15%</p>
-      {['Capsules / Softgels','Gummies','Tinctures / Oils'].includes(product.category) && (
-        <p className="text-xs text-indigo-700">Subscribe & save 10% (coming soon)</p>
+      {product.case_pack && (
+        <p className="text-xs text-gray-600">Case pack: {product.case_pack}</p>
       )}
-      {!restricted ? (
+      {product.moq_units ? (
+        <p className="text-xs text-gray-600">MOQ: {product.moq_units} units</p>
+      ) : null}
+      {gate.messages.length > 0 && (
+        <ul className="mt-2 space-y-1 text-xs text-amber-700">
+          {gate.messages.map((message) => (
+            <li key={message}>{message}</li>
+          ))}
+        </ul>
+      )}
+      {gate.canPurchase && showPrice ? (
         <QuickAdd
           slug={product.slug}
           title={product.title}
           price_cents={product.price_cents}
           image={product.images?.[0]}
         />
-      ) : (
-        <div className="mt-2 text-xs text-red-700">Not available to ship to {state}.</div>
-      )}
+      ) : null}
       <Link href={`/product/${product.slug}`} className="mt-3 inline-block rounded bg-black px-4 py-2 text-sm text-white">
-        View product
+        {gate.canPurchase && showPrice ? "View product" : "View details"}
       </Link>
+      {!gate.canPurchase && gate.requiresWholesale && (
+        <Link
+          href="/wholesale#access"
+          className="mt-2 inline-block rounded border border-dashed px-4 py-2 text-xs"
+        >
+          Request wholesale access
+        </Link>
+      )}
     </div>
   );
 }

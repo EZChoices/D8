@@ -6,6 +6,7 @@ import {
   getDiscountedBreaks,
   formatCurrency,
 } from "@/data/wholesale";
+import WholesaleAccessCallout from "@/components/WholesaleAccessCallout";
 
 export const metadata: Metadata = {
   title: "Wholesale Catalog",
@@ -70,6 +71,7 @@ export default function WholesalePage() {
         <p className="text-xs text-gray-600">
           Quantity discounts auto-apply to qualifying orders. Need contract manufacturing or white label? Mention it when you reach out.
         </p>
+        <WholesaleAccessCallout />
       </header>
 
       <nav aria-label="Wholesale categories" className="flex flex-wrap gap-2 text-sm">

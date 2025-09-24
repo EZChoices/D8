@@ -12,13 +12,13 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "D8 - Premium Delta-8. Nothing Else.", template: "%s | D8" },
-  description: "Clean, honest, third-party lab-tested Delta-8.",
+  title: { default: "D8 Wholesale THCA Supply", template: "%s | D8" },
+  description: "Bulk THCA flower, concentrates, and compliant hemp-derived products for licensed buyers.",
   metadataBase: new URL("https://d8-orpin.vercel.app"),
   alternates: { canonical: "/" },
   openGraph: {
-    title: "D8 - Premium Delta-8. Nothing Else.",
-    description: "Clean, honest, third-party lab-tested Delta-8.",
+    title: "D8 Wholesale THCA Supply",
+    description: "Bulk THCA flower, concentrates, and compliant hemp-derived products for licensed buyers.",
     type: "website",
     url: "https://d8-orpin.vercel.app",
     siteName: "D8"
