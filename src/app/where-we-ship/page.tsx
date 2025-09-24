@@ -6,18 +6,16 @@ import InternationalList from "@/components/InternationalList";
 import { stateRules } from "@/data/stateRules";
 
 export const metadata: Metadata = {
-  title: "Where We Ship",
+  title: "THCA Shipping Matrix & State Compliance",
   description:
-    "Review state-by-state compliance rules and international availability for wholesale hemp-derived products."
+    "Review state-by-state compliance rules and international availability for wholesale THCA products."
 };
 
 export default function Page() {
   return (
     <section className="section">
-      <h1>Where We Ship</h1>
-      <p className="lede">
-        Set your shipping state to check availability. Restricted SKUs are blocked automatically during checkout.
-      </p>
+      <h1 className="text-4xl font-bold">THCA Shipping Eligibility</h1>
+      <p className="lede">Set your shipping state to check availability. We automatically block restricted items at checkout.</p>
       <div className="mb-6">
         <h2>United States</h2>
         <p className="text-sm text-gray-700">
@@ -69,9 +67,8 @@ export default function Page() {
       <div className="mt-8">
         <h2>International</h2>
         <p className="text-sm text-gray-700">
-          We provide accurate commercial invoices (hemp extract / botanical ingredients) and HS codes. Importers are
-          responsible for securing permits, paying duties, and complying with their local regulations. Shipments held by
-          customs are the buyer’s responsibility.
+          We use accurate commercial descriptions and comply with export rules. The buyer is responsible for local import
+          compliance. Seized shipments cannot be refunded.
         </p>
         <div className="mt-3">
           <InternationalList />

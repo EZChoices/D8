@@ -1,10 +1,17 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Direct THCA Supply Chain",
+  description: "How D8 manages seed-to-shelf controls for wholesale THCA flower, concentrates, and distillates."
+};
+
 export default function DirectSupply() {
   return (
     <section className="section">
-      <h1>Direct Supply Chain</h1>
+      <h1 className="text-4xl font-bold">Direct THCA Supply Chain</h1>
       <p>
-        From sourcing to final packaging, we manage each step with vetted partners and documented controls. This keeps
-        quality and availability predictable for both individual customers and wholesale buyers.
+        From sourcing to final packaging, we manage each step with vetted partners and documented controls. This keeps quality and
+        availability predictable for wholesale buyers and contract manufacturing partners.
       </p>
 
       <h2>Seed‑to‑Shelf Overview</h2>
@@ -24,12 +31,12 @@ export default function DirectSupply() {
         <li>Vendor qualification: W‑9/Tax info, facility info, and audit questionnaires for B2B relationships.</li>
       </ul>
 
-      <h2>For Wholesale & Retail Partners</h2>
+      <h2>For Wholesale Partners</h2>
       <ul>
         <li>Forecasting & lead times: rolling forecasts help us stage production; typical lead 2–4 weeks.</li>
         <li>MOQs: vary by format; small‑run pilots available for new placements.</li>
         <li>Private label: on request; includes label compliance checks and test cadence planning.</li>
-        <li>Compliance support: batch COAs and SDS packaged for your retailer or marketplace onboarding.</li>
+        <li>Compliance support: batch COAs and SDS packaged for your retail chain or marketplace onboarding.</li>
       </ul>
 
       <p className="text-sm text-gray-600">Questions or documentation requests? Contact us via the form on the Contact page.</p>

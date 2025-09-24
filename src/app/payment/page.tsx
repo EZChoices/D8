@@ -1,14 +1,20 @@
-"use client";
+import type { Metadata } from "next";
 import StateSelector from "@/components/StateSelector";
+
+export const metadata: Metadata = {
+  title: "Wholesale THCA Payment & Logistics",
+  description:
+    "Understand how D8 invoices wholesale THCA orders via ACH, wire, or crypto and how freight is staged once compliance clears."
+};
 
 export default function Page() {
   return (
     <section className="section space-y-6">
       <header className="space-y-2">
-        <h1>Payment &amp; Logistics</h1>
+        <h1 className="text-4xl font-bold">Wholesale THCA Payment &amp; Logistics</h1>
         <p className="text-gray-700">
-          We operate on a wholesale request-for-quote workflow. Pricing is confirmed per batch after compliance review, then
-          invoiced for ACH, wire, or crypto settlement.
+          We operate on a wholesale request-for-quote workflow. Pricing is confirmed per batch after compliance review and issued
+          on an invoice that references the corresponding COAs and pallet counts.
         </p>
       </header>
 
@@ -26,13 +32,12 @@ export default function Page() {
       <section className="space-y-3">
         <h2 className="text-xl font-semibold">Accepted payment methods</h2>
         <ul className="list-disc space-y-1 pl-5 text-sm text-gray-700">
-          <li>ACH / domestic wire (preferred) — net terms available after three completed orders.</li>
-          <li>USDT or USDC (ERC-20) — include your invoice number in the memo and email the TX hash for reconciliation.</li>
-          <li>Cashier’s check / certified funds for local pickups (released after clearing at our bank).</li>
+          <li>Payment: ACH/Wire for initial orders; Net terms on approval.</li>
+          <li>Crypto (USDT/USDC ERC‑20) accepted with invoice reference.</li>
+          <li>We do not process consumer card payments for wholesale orders.</li>
         </ul>
         <p className="text-xs text-gray-600">
-          Card processing is unavailable for inhalable SKUs. Non-inhalable retail packs can be routed through our consumer
-          checkout upon request.
+          Limited retail packs without inhalable hardware may be routed through the consumer checkout when compliance allows.
         </p>
       </section>
 
@@ -42,8 +47,10 @@ export default function Page() {
           <li>Staging: 1–2 business days for parcel orders, 2–4 business days for pallets.</li>
           <li>Carriers: UPS, FedEx, regional LTL, or dedicated freight depending on weight and destination.</li>
           <li>Adult signature is required for all intoxicating products.</li>
-          <li>International: we declare goods accurately (hemp extract / botanical ingredients). Buyer is responsible for import
-            permits and local compliance.</li>
+          <li>
+            International: we use accurate commercial descriptions and comply with export rules. The buyer is responsible for
+            local import compliance. Seized shipments cannot be refunded.
+          </li>
         </ul>
         <p className="text-xs text-gray-600">
           Submit state to preview restrictions. We block SKUs that cannot legally enter a jurisdiction.

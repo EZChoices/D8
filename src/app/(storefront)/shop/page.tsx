@@ -8,9 +8,9 @@ import CartSummaryChip from "@/components/CartSummaryChip";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Shop Wholesale & Retail Packs",
+  title: "Wholesale THCA Shop & Limited Retail Packs",
   description:
-    "Browse bulk THCA flower, concentrates, and limited retail packs with compliance-driven availability by state."
+    "Browse bulk THCA flower, concentrates, and limited retail packs with compliance-driven availability by state and compliance gates."
 };
 
 type Search = {
@@ -86,10 +86,14 @@ export default async function Page({ searchParams }: { searchParams?: Search }) 
 
   return (
     <section className="section">
-      <div className="flex items-center gap-3">
-        <h1>Shop</h1>
+      <div className="flex flex-wrap items-center gap-3">
+        <h1 className="mb-0 text-4xl font-bold">Wholesale THCA Catalog</h1>
         <CartSummaryChip />
       </div>
+      <p className="mt-2 max-w-3xl text-sm text-gray-600">
+        Bulk THCA flower, concentrates, and compliant ingestibles are available to licensed buyers. Retail packs remain limited and
+        exclude inhalable ENDS hardware unless you are an approved wholesale account.
+      </p>
       <div role="tablist" aria-label="Sales channel" className="mt-2 flex gap-2">
         <a
           role="tab"

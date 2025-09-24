@@ -28,8 +28,8 @@ export default function InternationalList() {
   return (
     <div>
       <div className="mb-2 text-sm">
-        Receiver is responsible for import permits, duties, and compliance with local regulations. We provide accurate customs
-        declarations (hemp extract / botanical ingredients); mislabeling requests are declined.
+        We use accurate commercial descriptions and comply with export rules. The buyer is responsible for local import
+        compliance. Seized shipments cannot be refunded.
       </div>
       <div className="mb-3 flex items-center gap-2">
         <input value={q} onChange={(e)=> setQ(e.target.value)} placeholder="Search country" className="rounded border px-2 py-1" />

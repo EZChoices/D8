@@ -1,13 +1,19 @@
+import type { Metadata } from "next";
 import ResponsiveImage from "@/components/ResponsiveImage";
+
+export const metadata: Metadata = {
+  title: "Discreet Wholesale THCA Shipping",
+  description: "Plain packaging, accurate declarations, and tamper-evident controls for wholesale THCA shipments."
+};
 
 export default function DiscreetShipping() {
   return (
     <section className="section">
-      <h1>Discreet Shipping</h1>
+      <h1 className="text-4xl font-bold">Discreet Wholesale THCA Shipping</h1>
       <p className="lede">Plain packaging, secure seals, and privacy-focused documentation—at home and across borders.</p>
       <p>
         We prioritize privacy and product integrity from our facility to your doorstep. Packaging is plain and
-        unbranded, and inner packaging is sealed and tamper-evident. We use clear, customs-friendly descriptions and a
+        unbranded, and inner packaging is sealed and tamper-evident. We use accurate commercial descriptions and a
         neutral billing descriptor.
       </p>
 
@@ -31,7 +37,7 @@ export default function DiscreetShipping() {
       <hr className="divider" />
       <h2>International Shipping</h2>
       <ul>
-        <li>Customs-friendly descriptions; no sensitive product names on exterior documents.</li>
+        <li>Accurate commercial descriptions with proper HS codes on exterior documents.</li>
         <li>Transit times vary by destination and customs processing.</li>
         <li>Customer is responsible for verifying local regulations and duties/taxes.</li>
       </ul>

@@ -1,6 +1,6 @@
-# Delta8 Site
+# D8 Wholesale THCA Site
 
-A minimal e-commerce frontend for Delta-8 products built with Next.js 14, TypeScript, and Tailwind CSS.
+A minimal wholesale-focused frontend for THCA products built with Next.js 14, TypeScript, and Tailwind CSS.
 
 ## Features
 - Static product catalog defined in [`src/lib/products.ts`](src/lib/products.ts)
