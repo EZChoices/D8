@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useShipping } from "@/components/ShippingContext";
-import { RESTRICTED_STATES } from "@/lib/restrictions";
+import { getStateRule } from "@/data/stateRules";
 
 // Attempts to load /us-states.svg (place your full US map SVG in /public with each state path id="CA", "NY", etc.)
 // If present, makes each state clickable and highlights restricted states.
@@ -27,18 +27,21 @@ export default function USSVGMap() {
     if (!svg || !containerRef.current) return;
     // Attach click handlers to paths with state code IDs
     const root = containerRef.current;
-    const restricted = new Set(RESTRICTED_STATES);
     const paths = root.querySelectorAll<SVGPathElement>("svg path[id]");
     paths.forEach((p) => {
       const code = p.id.toUpperCase();
       p.style.cursor = "pointer";
       p.addEventListener("click", () => setState(code));
       // Style restricted states lightly if no fill present
-      if (restricted.has(code) && !p.getAttribute("fill")) {
-        p.setAttribute("fill", "#fee2e2"); // red-100
-      }
-      if (!restricted.has(code) && !p.getAttribute("fill")) {
-        p.setAttribute("fill", "#ecfdf5"); // green-50
+      const rule = getStateRule(code);
+      if (!p.getAttribute("fill")) {
+        if (rule.status === "no_ship") {
+          p.setAttribute("fill", "#fecaca");
+        } else if (rule.status === "restricted") {
+          p.setAttribute("fill", "#fef3c7");
+        } else {
+          p.setAttribute("fill", "#ecfdf5");
+        }
       }
       if (state && code === state) {
         p.setAttribute("stroke", "#111");

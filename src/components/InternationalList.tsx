@@ -27,7 +27,10 @@ export default function InternationalList() {
     s === "OK" ? "bg-green-50 border-green-200" : s === "Caution" ? "bg-yellow-50 border-yellow-200" : "bg-red-50 border-red-200";
   return (
     <div>
-      <div className="mb-2 text-sm">Receiver is responsible for complying with local laws. We ship discreetly with customs‑friendly paperwork, but seized items cannot be refunded.</div>
+      <div className="mb-2 text-sm">
+        Receiver is responsible for import permits, duties, and compliance with local regulations. We provide accurate customs
+        declarations (hemp extract / botanical ingredients); mislabeling requests are declined.
+      </div>
       <div className="mb-3 flex items-center gap-2">
         <input value={q} onChange={(e)=> setQ(e.target.value)} placeholder="Search country" className="rounded border px-2 py-1" />
         <span className="text-xs text-gray-600">Statuses: OK = generally accepted; Caution = mixed/unclear; Restricted = high risk</span>

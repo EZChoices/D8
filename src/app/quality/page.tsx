@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import fs from "node:fs";
 import path from "node:path";
 import ResponsiveImage from "@/components/ResponsiveImage";
+
+export const metadata: Metadata = {
+  title: "Quality & COA Library",
+  description: "Access batch-level COAs, testing status, and lab partners for all wholesale SKUs."
+};
 
 function getProducts() {
   const p = path.join(process.cwd(), "content", "products.json");

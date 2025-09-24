@@ -1,6 +1,6 @@
 "use client";
 import { useShipping } from "@/components/ShippingContext";
-import { RESTRICTED_STATES } from "@/lib/restrictions";
+import { getStateRule } from "@/data/stateRules";
 
 const REGIONS: Record<string, string[]> = {
   West: [
@@ -19,30 +19,36 @@ const REGIONS: Record<string, string[]> = {
 
 export default function USRegionsMap() {
   const { state, setState } = useShipping();
-  const restricted = new Set(RESTRICTED_STATES);
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
       {Object.entries(REGIONS).map(([region, codes]) => (
         <div key={region}>
           <div className="mb-2 text-sm font-semibold">{region}</div>
-          <div className="grid grid-cols-3 gap-1 text-sm">
-            {codes.map((code) => (
-              <button
-                key={code}
-                onClick={() => setState(code)}
-                className={`rounded border px-2 py-1 text-left ${
+            <div className="grid grid-cols-3 gap-1 text-sm">
+              {codes.map((code) => {
+                const rule = getStateRule(code);
+                const tone =
                   state === code
                     ? "bg-black text-white"
-                    : restricted.has(code)
-                    ? "bg-red-50 border-red-200"
-                    : "bg-green-50 border-green-200"
-                }`}
-                aria-label={`Set shipping state ${code}`}
-              >
-                {code}
-              </button>
-            ))}
-          </div>
+                    : rule.status === "no_ship"
+                    ? "bg-red-100 border-red-300"
+                    : rule.status === "restricted"
+                    ? "bg-amber-50 border-amber-200"
+                    : "bg-emerald-50 border-emerald-200";
+                return (
+                  <button
+                    key={code}
+                    onClick={() => setState(code)}
+                    className={`rounded border px-2 py-1 text-left ${tone}`}
+                    aria-label={`Set shipping state ${code}`}
+                    aria-disabled={rule.status === "no_ship"}
+                    disabled={rule.status === "no_ship"}
+                  >
+                    {code}
+                  </button>
+                );
+              })}
+            </div>
         </div>
       ))}
     </div>

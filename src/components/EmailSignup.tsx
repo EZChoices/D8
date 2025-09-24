@@ -3,12 +3,31 @@ import { useState } from "react";
 
 export default function EmailSignup() {
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    // TODO: integrate Formspree or Resend/Postmark
-    setSent(true);
+    setSubmitting(true);
+    setStatus(null);
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const payload = await res.json();
+      if (!res.ok) {
+        setStatus({ type: "error", message: payload.error || "Unable to subscribe right now." });
+      } else {
+        setStatus({ type: "success", message: payload.message || "Check your inbox to confirm." });
+        setEmail("");
+      }
+    } catch (err: any) {
+      setStatus({ type: "error", message: err?.message || "Unexpected error." });
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -22,9 +41,22 @@ export default function EmailSignup() {
           placeholder="Your email"
           className="w-full rounded border px-3 py-2"
         />
-        <button className="rounded bg-black px-4 py-2 text-white">Get updates</button>
+        <button
+          className={`rounded px-4 py-2 text-white ${submitting ? "bg-gray-400" : "bg-black"}`}
+          disabled={submitting}
+        >
+          {submitting ? "Submitting…" : "Get updates"}
+        </button>
       </form>
-      {sent && <p className="mt-3 text-sm text-green-700">Thanks! You’re on the list.</p>}
+      {status ? (
+        <p
+          className={`mt-3 text-sm ${
+            status.type === "success" ? "text-green-700" : "text-red-700"
+          }`}
+        >
+          {status.message}
+        </p>
+      ) : null}
     </div>
   );
 }

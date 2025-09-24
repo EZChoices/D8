@@ -12,6 +12,7 @@ export default function Footer() {
           <Link href="/wholesale">Wholesale</Link>
           <Link href="/payment">Shipping & Payment</Link>
           <Link href="/where-we-ship">Where we ship</Link>
+          <Link href="/wholesale-terms">Wholesale terms</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
           <Link href="/shipping-returns">Shipping & Returns</Link>
