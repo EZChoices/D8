@@ -3,17 +3,50 @@ import { useCart } from "@/components/CartContext";
 import Link from "next/link";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import { beginCheckout, viewCart } from "@/lib/ga";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useShipping } from "@/components/ShippingContext";
 import { STATE_CODES, getStateRule } from "@/data/stateRules";
 import { getProduct, formatPrice } from "@/data/products";
 import { useWholesale } from "@/components/WholesaleContext";
 import { evaluatePurchaseGate } from "@/lib/purchasePolicy";
+import QuoteDrawer from "@/components/QuoteDrawer";
+import type { QuoteItem } from "@/types/quote";
+import type { PackUnit, ProductCategory } from "@/types/product";
+import { track } from "@/lib/analytics";
+
+function inferPackUnit(label: string | undefined): { pack: string; unit: PackUnit } {
+  if (!label) return { pack: "each", unit: "ea" };
+  const lower = label.toLowerCase();
+  if (lower.endsWith("g")) return { pack: label, unit: "g" };
+  if (lower.endsWith("oz")) return { pack: label, unit: "oz" };
+  if (lower.endsWith("lb") || lower.includes("pound")) return { pack: label, unit: "lb" };
+  if (lower.includes("ml")) return { pack: label, unit: "ml" };
+  if (lower.includes("half pound") || lower.includes("half-pound")) return { pack: label, unit: "hp" };
+  if (lower.includes("quarter pound") || lower.includes("quarter-pound")) return { pack: label, unit: "qp" };
+  return { pack: label, unit: "ea" };
+}
+
+function mapComplianceToCategory(productCategory: string, tags: string[] | undefined): ProductCategory {
+  const lowerCategory = productCategory.toLowerCase();
+  const set = new Set((tags || []).map((tag) => tag.toLowerCase()));
+  if (set.has("flower") || lowerCategory.includes("flower")) return "flower";
+  if (set.has("pre-roll")) return "pre-rolls";
+  if (set.has("extract") || lowerCategory.includes("concentrate")) return "concentrates";
+  if (lowerCategory.includes("distillate")) return "distillates";
+  if (set.has("hardware") || lowerCategory.includes("hardware")) return "hardware";
+  if (set.has("topical") || lowerCategory.includes("topical")) return "topicals";
+  if (set.has("beverage") || lowerCategory.includes("beverage")) return "beverages";
+  if (set.has("edible") || lowerCategory.includes("edible") || lowerCategory.includes("gummy")) return "edibles";
+  if (set.has("ingestible")) return "ingestibles";
+  if (set.has("inhalable") || lowerCategory.includes("vape")) return "vapes";
+  return "services";
+}
 
 export default function CartPage() {
   const { items, setQty, remove, clear } = useCart();
   const { state, setState } = useShipping();
   const { status } = useWholesale();
+  const [quoteOpen, setQuoteOpen] = useState(false);
   const enriched = useMemo(() => {
     return items.map((item) => {
       const product = getProduct(item.slug);
@@ -27,6 +60,30 @@ export default function CartPage() {
   const count = items.reduce((n, i) => n + i.quantity, 0);
   const subtotal = items.reduce((s, i) => s + i.price_cents * i.quantity, 0);
   const blocked = enriched.filter((line) => !line.gate.canPurchase);
+  const quoteItems = useMemo(() => {
+    return enriched.map((line) => {
+      const product = line.product;
+      const baseLabel = product?.size_label || product?.case_pack || "each";
+      const { pack, unit } = inferPackUnit(baseLabel);
+      const category = product
+        ? mapComplianceToCategory(product.category, product.compliance_tags)
+        : "services";
+      const item: QuoteItem = {
+        productId: line.slug,
+        name: line.title,
+        category,
+        pack,
+        unit,
+        quantity: line.quantity
+      };
+      if (product?.price_cents) {
+        item.priceUSD = Number((product.price_cents / 100).toFixed(2));
+      } else {
+        item.priceUSD = Number((line.price_cents / 100).toFixed(2));
+      }
+      return item;
+    });
+  }, [enriched]);
 
   useEffect(() => {
     viewCart(items.map((i) => ({ id: i.slug, name: i.title, price: i.price_cents / 100, quantity: i.quantity })));
@@ -34,6 +91,13 @@ export default function CartPage() {
   }, []);
 
   const canRequestQuote = Boolean(state) && blocked.length === 0 && items.length > 0;
+
+  const openQuoteDrawer = () => {
+    if (!canRequestQuote) return;
+    beginCheckout(items.map((i) => ({ id: i.slug, name: i.title, price: i.price_cents / 100, quantity: i.quantity })));
+    track("quote_drawer_opened", { items: items.length, state });
+    setQuoteOpen(true);
+  };
 
   return (
     <section className="section space-y-6">
@@ -164,19 +228,17 @@ export default function CartPage() {
                 Clear cart
               </button>
             </div>
-            <Link
-              href={canRequestQuote ? "/checkout" : "#"}
-              aria-disabled={!canRequestQuote}
-              onClick={() => {
-                if (!canRequestQuote) return;
-                beginCheckout(items.map((i) => ({ id: i.slug, name: i.title, price: i.price_cents / 100, quantity: i.quantity })));
-              }}
+            <button
+              type="button"
+              onClick={openQuoteDrawer}
               className={`mt-3 inline-flex items-center justify-center rounded px-4 py-2 text-sm font-semibold text-white ${
                 canRequestQuote ? "bg-black" : "bg-gray-400 cursor-not-allowed"
               }`}
+              aria-disabled={!canRequestQuote}
+              disabled={!canRequestQuote}
             >
               Request wholesale quote
-            </Link>
+            </button>
             {!canRequestQuote && (
               <p className="text-xs text-red-700">
                 Select a compliant state and resolve restricted items to enable quote submission.
@@ -185,6 +247,14 @@ export default function CartPage() {
           </div>
         </div>
       )}
+      <QuoteDrawer
+        key={quoteItems.map((i) => `${i.productId}:${i.quantity}`).join("|")}
+        isOpen={quoteOpen}
+        onClose={() => setQuoteOpen(false)}
+        initialItems={quoteItems}
+        userIsWholesaleVerified={status === "approved"}
+        initialShippingState={state}
+      />
     </section>
   );
 }

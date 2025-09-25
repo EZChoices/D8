@@ -40,7 +40,7 @@ export function evaluatePurchaseGate(
     if (stateDetails.blocked) {
       canPurchase = false;
       messages.push(`Not available for shipment to ${stateDetails.rule.code}: ${stateDetails.rule.reason}`);
-    } else if (stateDetails.rule.status === "restricted") {
+    } else if (stateDetails.rule.status === "Restricted") {
       messages.push(`Note: ${stateDetails.rule.reason}`);
     }
   }

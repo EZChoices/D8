@@ -35,9 +35,9 @@ export default function USSVGMap() {
       // Style restricted states lightly if no fill present
       const rule = getStateRule(code);
       if (!p.getAttribute("fill")) {
-        if (rule.status === "no_ship") {
+        if (rule?.status === "NoShip") {
           p.setAttribute("fill", "#fecaca");
-        } else if (rule.status === "restricted") {
+        } else if (rule?.status === "Restricted") {
           p.setAttribute("fill", "#fef3c7");
         } else {
           p.setAttribute("fill", "#ecfdf5");
