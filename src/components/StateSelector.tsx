@@ -3,11 +3,12 @@ import { useMemo, useState } from "react";
 import { useShipping } from "@/components/ShippingContext";
 import { addShippingInfo } from "@/lib/ga";
 import { STATE_CODES, getStateRule } from "@/data/stateRules";
+import type { StateStatus } from "@/data/stateRules";
 
-const STATUS_LABEL: Record<string, string> = {
-  ok: "Permitted",
-  restricted: "Restricted",
-  no_ship: "Unavailable"
+const STATUS_LABEL: Record<StateStatus, string> = {
+  OK: "Permitted",
+  Restricted: "Restricted",
+  NoShip: "Unavailable"
 };
 
 export default function StateSelector({ showGrid = true }: { showGrid?: boolean }) {
@@ -16,8 +17,7 @@ export default function StateSelector({ showGrid = true }: { showGrid?: boolean 
   const activeRule = selected ? getStateRule(selected) : state ? getStateRule(state) : null;
   const description = useMemo(() => {
     if (!activeRule) return null;
-    const summary = activeRule.note ? `${activeRule.reason} ${activeRule.note}` : activeRule.reason;
-    return `${STATUS_LABEL[activeRule.status]} — ${summary}`;
+    return `${STATUS_LABEL[activeRule.status]} — ${activeRule.reason}`;
   }, [activeRule]);
 
   return (
@@ -50,13 +50,13 @@ export default function StateSelector({ showGrid = true }: { showGrid?: boolean 
         </button>
         {state && (
           <span className="text-sm text-gray-600">
-            Current: {state} ({STATUS_LABEL[getStateRule(state).status]})
+            Current: {state} ({STATUS_LABEL[getStateRule(state)?.status ?? "OK"]})
           </span>
         )}
       </div>
       {description ? (
         <p className="mb-3 text-sm text-gray-700" aria-live="polite">
-          {description} (Updated {activeRule?.updatedAt})
+          {description} (Updated {activeRule?.updated})
         </p>
       ) : null}
       {showGrid && (
@@ -64,9 +64,9 @@ export default function StateSelector({ showGrid = true }: { showGrid?: boolean 
           {STATE_CODES.map((code) => {
             const rule = getStateRule(code);
             const tone =
-              rule.status === "ok"
+              rule.status === "OK"
                 ? "bg-emerald-50 border-emerald-200"
-                : rule.status === "restricted"
+                : rule.status === "Restricted"
                 ? "bg-amber-50 border-amber-200"
                 : "bg-red-50 border-red-200";
             return (
@@ -74,6 +74,7 @@ export default function StateSelector({ showGrid = true }: { showGrid?: boolean 
                 <div className="font-semibold">{code}</div>
                 <div>{STATUS_LABEL[rule.status]}</div>
                 <div className="mt-1 text-[11px] text-gray-600">{rule.reason}</div>
+                <div className="text-[11px] text-gray-500">Updated {rule.updated}</div>
               </div>
             );
           })}

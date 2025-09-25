@@ -1,133 +1,85 @@
-export type ShippingStatus = "ok" | "restricted" | "no_ship";
+import type { ProductCategory } from "@/types/product";
 
-export type StateRule = {
-  code: string;
-  status: ShippingStatus;
-  restrictedCategories: string[];
+export type StateStatus = "OK" | "Restricted" | "NoShip";
+
+export interface StateRule {
+  status: StateStatus;
+  updated: string;
   reason: string;
-  updatedAt: string;
-  note?: string;
+  disallowCategories?: ProductCategory[];
+}
+
+const DEFAULT_RULE: StateRule = {
+  status: "OK",
+  reason: "No statewide restrictions recorded. Confirm municipal rules prior to shipment.",
+  updated: "2025-02-10"
 };
 
-const STATE_CODES = [
-  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","DC","WA","WV","WI","WY"
+export const STATE_CODES = [
+  "AL","AK","AZ","AR","CA","CO","CT","DC","DE","FL",
+  "GA","HI","IA","ID","IL","IN","KS","KY","LA","MA",
+  "MD","ME","MI","MN","MO","MS","MT","NC","ND","NE",
+  "NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI",
+  "SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY"
 ] as const;
 
-const DEFAULT_REASON =
-  "Permits hemp-derived cannabinoids with <0.3% Δ9 THC under the 2018 Farm Bill. Confirm municipal rules prior to resale.";
-const DEFAULT_UPDATED = "2025-02-10";
+type StateRuleRecord = Record<string, StateRule>;
 
-const OVERRIDES: Partial<Record<(typeof STATE_CODES)[number], Partial<StateRule>>> = {
-  AK: {
-    status: "restricted",
-    restrictedCategories: ["Hemp Flower", "Vape Carts", "Disposables", "Concentrate Wax"],
-    reason: "Alaska requires in-state licensing for inhalable hemp derivatives and limits shipment by air freight.",
-    note: "Only ship ingestibles or topicals to Alaska partners once documentation is cleared."
-  },
-  HI: {
-    status: "restricted",
-    restrictedCategories: ["Vape Carts", "Disposables"],
-    reason: "Hawaii restricts import of inhalable hemp hardware pending Department of Health guidance.",
-    note: "Edibles and topicals remain eligible with adult-signature service."
-  },
+export const STATE_RULES: StateRuleRecord = {
   ID: {
-    status: "no_ship",
-    restrictedCategories: ["ALL"],
-    reason: "Idaho prohibits hemp-derived THC isomers regardless of delta-9 concentration.",
-    note: "Orders to Idaho are automatically declined."
+    status: "Restricted",
+    reason: "State rules for intoxicating hemp products; confirm THCA/ENDS policies.",
+    updated: "2025-09-24",
+    disallowCategories: ["vapes", "carts"]
   },
-  IA: {
-    status: "restricted",
-    restrictedCategories: ["ALL"],
-    reason: "Iowa Attorney General guidance bans intoxicating hemp cannabinoids for commerce.",
-    note: "Serve Iowa partners with CBD-only catalog variants."
+  SD: {
+    status: "Restricted",
+    reason: "State rules for intoxicating hemp products; confirm THCA/ENDS policies.",
+    updated: "2025-09-24",
+    disallowCategories: ["vapes", "carts"]
   },
-  NE: {
-    status: "restricted",
-    restrictedCategories: ["Hemp Flower", "Vape Carts", "Disposables", "Concentrate Wax"],
-    reason: "Nebraska limits inhalable hemp goods to licensed medical channels.",
-    note: "Offer only ingestible SKUs with certificate of compliance."
+  CA: {
+    status: "Restricted",
+    reason: "In-state enforcement regarding intoxicating hemp; confirm specific SKU allowances.",
+    updated: "2025-09-24"
   },
-  NY: {
-    status: "restricted",
-    restrictedCategories: ["ALL"],
-    reason: "New York bans the sale of hemp-derived products with intoxicating cannabinoids to consumers.",
-    note: "Route wholesale customers through NY cannabinoid permit holders only."
-  },
-  MN: {
-    status: "restricted",
-    restrictedCategories: ["Vape Carts", "Disposables", "Concentrate Wax"],
-    reason: "Minnesota allows low-dose edibles only; inhalable products require cannabis program licensing.",
-    note: "Ship finished goods ≤10 mg serving only."
-  },
-  OR: {
-    status: "restricted",
-    restrictedCategories: ["Vape Carts", "Disposables", "Concentrate Wax"],
-    reason: "Oregon OLCC prohibits artificially derived THC products in general retail.",
-    note: "Bulk THCA flower permissible with documentation; confirm buyer license."
-  },
-  RI: {
-    status: "restricted",
-    restrictedCategories: ["ALL"],
-    reason: "Rhode Island statute classifies Delta-8/THCA products alongside controlled substances.",
-    note: "Only non-intoxicating hemp ingredients may ship to RI."
-  },
-  UT: {
-    status: "restricted",
-    restrictedCategories: ["Vape Carts", "Disposables"],
-    reason: "Utah requires product registration and bans disposable vape hardware containing THC isomers.",
-    note: "Offer capsules, tinctures, or topicals only once registered."
-  },
-  VT: {
-    status: "restricted",
-    restrictedCategories: ["Vape Carts", "Disposables", "Concentrate Wax"],
-    reason: "Vermont limits hemp-derived inhalable goods to licensed adult-use operators.",
-    note: "Coordinate with vertically integrated licensees for inhalables."
-  },
-  WA: {
-    status: "restricted",
-    restrictedCategories: ["Vape Carts", "Disposables", "Concentrate Wax"],
-    reason: "Washington LCB restricts Delta-8 and THCA concentrates from general commerce.",
-    note: "Channel only through licensed processors."
+  TX: {
+    status: "Restricted",
+    reason: "Regulatory changes in progress; confirm ENDS and THCA policies.",
+    updated: "2025-09-24",
+    disallowCategories: ["vapes", "carts"]
   }
 };
 
-export const stateRules: StateRule[] = STATE_CODES.map((code) => {
-  const base: StateRule = {
-    code,
-    status: "ok",
-    restrictedCategories: [],
-    reason: DEFAULT_REASON,
-    updatedAt: DEFAULT_UPDATED
-  };
-  const override = OVERRIDES[code];
-  if (!override) return base;
-  return {
-    ...base,
-    ...override,
-    restrictedCategories: override.restrictedCategories ?? base.restrictedCategories,
-    reason: override.reason ?? base.reason,
-    updatedAt: override.updatedAt ?? base.updatedAt ?? DEFAULT_UPDATED
-  };
-});
+export const D2C_BLOCKED_CATEGORIES: ProductCategory[] = ["vapes", "carts"];
 
-export const stateRuleMap = new Map(stateRules.map((rule) => [rule.code, rule]));
-
-export function getStateRule(code: string): StateRule {
-  return stateRuleMap.get(code.toUpperCase()) ?? {
-    code: code.toUpperCase(),
-    status: "ok",
-    restrictedCategories: [],
-    reason: DEFAULT_REASON,
-    updatedAt: DEFAULT_UPDATED
-  };
+export interface StateRuleEntry extends StateRule {
+  code: string;
 }
 
-export function stateRestrictsCategory(rule: StateRule, category: string) {
-  if (rule.status === "no_ship") return true;
-  if (!rule.restrictedCategories.length) return false;
-  if (rule.restrictedCategories.includes("ALL")) return true;
-  return rule.restrictedCategories.includes(category);
+export const stateRules: StateRuleEntry[] = STATE_CODES.map((code) => ({
+  code,
+  ...(STATE_RULES[code] ?? DEFAULT_RULE)
+}));
+
+export function getStateRule(stateCode?: string): StateRuleEntry | undefined {
+  if (!stateCode) return undefined;
+  const code = stateCode.toUpperCase().trim();
+  const rule = STATE_RULES[code] ?? DEFAULT_RULE;
+  return { code, ...rule };
 }
 
-export { STATE_CODES };
+export function isCategoryAllowedInState(
+  stateCode: string | undefined,
+  category: ProductCategory
+): { allowed: boolean; rule?: StateRuleEntry } {
+  const rule = getStateRule(stateCode);
+  if (!rule) return { allowed: true, rule };
+  if (rule.status === "NoShip") return { allowed: false, rule };
+  if (rule.disallowCategories?.includes(category)) return { allowed: false, rule };
+  return { allowed: true, rule };
+}
+
+export function isD2CBlockedCategory(category: ProductCategory): boolean {
+  return D2C_BLOCKED_CATEGORIES.includes(category);
+}

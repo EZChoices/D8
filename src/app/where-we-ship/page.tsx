@@ -47,17 +47,14 @@ export default function Page() {
                 <tr key={rule.code} className="align-top">
                   <td className="px-3 py-2 font-medium">{rule.code}</td>
                   <td className="px-3 py-2">
-                    {rule.status === "ok"
+                    {rule.status === "OK"
                       ? "Permitted"
-                      : rule.status === "restricted"
+                      : rule.status === "Restricted"
                       ? "Restricted"
                       : "Unavailable"}
                   </td>
-                  <td className="px-3 py-2 text-gray-700">
-                    {rule.reason}
-                    {rule.note ? <span className="block text-xs text-gray-500">{rule.note}</span> : null}
-                  </td>
-                  <td className="px-3 py-2 text-xs text-gray-500">{rule.updatedAt}</td>
+                  <td className="px-3 py-2 text-gray-700">{rule.reason}</td>
+                  <td className="px-3 py-2 text-xs text-gray-500">{rule.updated}</td>
                 </tr>
               ))}
             </tbody>

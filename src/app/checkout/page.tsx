@@ -6,6 +6,36 @@ import { useWholesale } from "@/components/WholesaleContext";
 import { getProduct, formatPrice } from "@/data/products";
 import { STATE_CODES } from "@/data/stateRules";
 import { evaluatePurchaseGate } from "@/lib/purchasePolicy";
+import type { QuoteItem, QuotePayload } from "@/types/quote";
+import type { PackUnit, ProductCategory } from "@/types/product";
+
+function inferPackUnit(label: string | undefined): { pack: string; unit: PackUnit } {
+  if (!label) return { pack: "each", unit: "ea" };
+  const lower = label.toLowerCase();
+  if (lower.endsWith("g")) return { pack: label, unit: "g" };
+  if (lower.endsWith("oz")) return { pack: label, unit: "oz" };
+  if (lower.endsWith("lb") || lower.includes("pound")) return { pack: label, unit: "lb" };
+  if (lower.includes("ml")) return { pack: label, unit: "ml" };
+  if (lower.includes("half pound") || lower.includes("half-pound")) return { pack: label, unit: "hp" };
+  if (lower.includes("quarter pound") || lower.includes("quarter-pound")) return { pack: label, unit: "qp" };
+  return { pack: label, unit: "ea" };
+}
+
+function mapComplianceToCategory(productCategory: string, tags: string[] | undefined): ProductCategory {
+  const lowerCategory = productCategory.toLowerCase();
+  const set = new Set((tags || []).map((tag) => tag.toLowerCase()));
+  if (set.has("flower") || lowerCategory.includes("flower")) return "flower";
+  if (set.has("pre-roll")) return "pre-rolls";
+  if (set.has("extract") || lowerCategory.includes("concentrate")) return "concentrates";
+  if (lowerCategory.includes("distillate")) return "distillates";
+  if (set.has("hardware") || lowerCategory.includes("hardware")) return "hardware";
+  if (set.has("topical") || lowerCategory.includes("topical")) return "topicals";
+  if (set.has("beverage") || lowerCategory.includes("beverage")) return "beverages";
+  if (set.has("edible") || lowerCategory.includes("edible") || lowerCategory.includes("gummy")) return "edibles";
+  if (set.has("ingestible")) return "ingestibles";
+  if (set.has("inhalable") || lowerCategory.includes("vape")) return "vapes";
+  return "services";
+}
 
 export default function CheckoutPage({ searchParams }: { searchParams: { sku?: string; qty?: string } }) {
   const { items, clear } = useCart();
@@ -32,6 +62,27 @@ export default function CheckoutPage({ searchParams }: { searchParams: { sku?: s
   const blocked = enriched.filter((line) => !line.gate.canPurchase);
   const subtotal = items.reduce((sum, item) => sum + item.price_cents * item.quantity, 0);
   const cartEmpty = items.length === 0;
+  const quoteItems = useMemo(() => {
+    return enriched.map<QuoteItem>((line) => {
+      const product = line.product;
+      const baseLabel = product?.size_label || product?.case_pack || "each";
+      const { pack, unit } = inferPackUnit(baseLabel);
+      const category = product
+        ? mapComplianceToCategory(product.category, product.compliance_tags)
+        : "services";
+      const item: QuoteItem = {
+        productId: line.slug,
+        name: line.title,
+        category,
+        pack,
+        unit,
+        quantity: line.quantity
+      };
+      const cents = product?.price_cents ?? line.price_cents;
+      item.priceUSD = Number((cents / 100).toFixed(2));
+      return item;
+    });
+  }, [enriched]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -50,18 +101,26 @@ export default function CheckoutPage({ searchParams }: { searchParams: { sku?: s
     }
     setSubmitting(true);
     try {
-      const response = await fetch("/api/quotes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          company,
+      const payload: QuotePayload = {
+        business: {
+          businessName: company,
           contactName,
           email,
-          phone,
+          phone: phone || undefined
+        },
+        shipping: {
           state,
-          notes,
-          items: enriched.map((line) => ({ slug: line.slug, quantity: line.quantity }))
-        })
+          country: "US"
+        },
+        items: quoteItems,
+        message: notes,
+        userIsWholesaleVerified: status === "approved",
+        createdAtISO: new Date().toISOString()
+      };
+      const response = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
       const payload = await response.json();
       if (!response.ok) {

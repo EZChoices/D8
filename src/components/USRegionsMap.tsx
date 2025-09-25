@@ -30,9 +30,9 @@ export default function USRegionsMap() {
                 const tone =
                   state === code
                     ? "bg-black text-white"
-                    : rule.status === "no_ship"
+                    : rule?.status === "NoShip"
                     ? "bg-red-100 border-red-300"
-                    : rule.status === "restricted"
+                    : rule?.status === "Restricted"
                     ? "bg-amber-50 border-amber-200"
                     : "bg-emerald-50 border-emerald-200";
                 return (
@@ -41,8 +41,8 @@ export default function USRegionsMap() {
                     onClick={() => setState(code)}
                     className={`rounded border px-2 py-1 text-left ${tone}`}
                     aria-label={`Set shipping state ${code}`}
-                    aria-disabled={rule.status === "no_ship"}
-                    disabled={rule.status === "no_ship"}
+                    aria-disabled={rule?.status === "NoShip"}
+                    disabled={rule?.status === "NoShip"}
                   >
                     {code}
                   </button>
