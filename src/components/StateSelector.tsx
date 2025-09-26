@@ -62,7 +62,7 @@ export default function StateSelector({ showGrid = true }: { showGrid?: boolean 
       {showGrid && (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-6">
           {STATE_CODES.map((code) => {
-            const rule = getStateRule(code);
+            const rule = getStateRule(code)!;
             const tone =
               rule.status === "OK"
                 ? "bg-emerald-50 border-emerald-200"
