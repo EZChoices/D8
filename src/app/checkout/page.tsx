@@ -122,11 +122,11 @@ export default function CheckoutPage({ searchParams }: { searchParams: { sku?: s
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      const payload = await response.json();
+      const responsePayload = await response.json();
       if (!response.ok) {
-        setResult({ type: "error", message: payload.error || "Unable to submit request." });
+        setResult({ type: "error", message: responsePayload.error || "Unable to submit request." });
       } else {
-        setResult({ type: "success", message: payload.message || "Quote request submitted." });
+        setResult({ type: "success", message: responsePayload.message || "Quote request submitted." });
         clear();
       }
     } catch (error: any) {

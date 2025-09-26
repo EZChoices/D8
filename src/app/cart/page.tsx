@@ -46,6 +46,7 @@ export default function CartPage() {
   const { items, setQty, remove, clear } = useCart();
   const { state, setState } = useShipping();
   const { status } = useWholesale();
+  const stateRule = state ? getStateRule(state) : null;
   const [quoteOpen, setQuoteOpen] = useState(false);
   const enriched = useMemo(() => {
     return items.map((item) => {
@@ -127,7 +128,7 @@ export default function CartPage() {
         </select>
         {state ? (
           <span className="text-xs text-gray-600">
-            {getStateRule(state).reason}
+            {stateRule?.reason}
           </span>
         ) : (
           <span className="text-xs text-red-700">Select a destination for compliance review.</span>
